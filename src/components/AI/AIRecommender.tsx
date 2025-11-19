@@ -2,11 +2,25 @@ import React, { useState } from 'react';
 import { Brain, Search, Lightbulb, ArrowRight, Sparkles } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import toast from 'react-hot-toast';
+import { Algorithm } from '../../types';
 
 export const AIRecommender: React.FC = () => {
   const { setLastRecommendation, setCurrentView, setSelectedAlgorithm } = useStore();
   const [query, setQuery] = useState('');
-  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [recommendations, setRecommendations] = useState<Array<{
+    id: string;
+    name: string;
+    category: string;
+    complexity: string;
+    timeComplexity: string;
+    spaceComplexity: string;
+    match: number;
+    color: string;
+    icon: React.ComponentType<{ className?: string }>;
+    description: string;
+    reasons: string[];
+    useCases: string[];
+  }>>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleAnalyze = async () => {
@@ -28,13 +42,19 @@ export const AIRecommender: React.FC = () => {
   };
 
   const handleSelectAlgorithm = (algorithmId: string) => {
-    const algorithm = {
+    const algorithm: Algorithm = {
       id: algorithmId,
       name: algorithmId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
       category: getAlgorithmCategory(algorithmId),
       description: 'AI recommended algorithm',
       timeComplexity: 'O(n log n)',
       spaceComplexity: 'O(1)',
+      difficulty: 'Medium',
+      code: '',
+      pseudocode: [],
+      visualizationType: 'graph',
+      defaultInput: '',
+      inputType: 'array',
       implemented: true,
     };
     
@@ -157,7 +177,7 @@ export const AIRecommender: React.FC = () => {
                 <div>
                   <h5 className="font-semibold text-gray-900 dark:text-white mb-2">Why it fits:</h5>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                    {rec.reasons.map((reason: string, i: number) => (
+                    {rec.reasons.map((reason, i) => (
                       <li key={i} className="flex items-start">
                         <span className="text-green-500 mr-2">•</span>
                         {reason}
@@ -169,7 +189,7 @@ export const AIRecommender: React.FC = () => {
                 <div>
                   <h5 className="font-semibold text-gray-900 dark:text-white mb-2">Use cases:</h5>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                    {rec.useCases.map((useCase: string, i: number) => (
+                    {rec.useCases.map((useCase, i) => (
                       <li key={i} className="flex items-start">
                         <span className="text-blue-500 mr-2">•</span>
                         {useCase}

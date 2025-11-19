@@ -36,6 +36,15 @@ export const Header: React.FC = () => {
 
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+      {/* Small header with Code, Visualize, Learn */}
+      <div className="bg-black py-1">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-white text-sm font-medium">
+            Code, Visualize, Learn
+          </p>
+        </div>
+      </div>
+      
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left Section */}
@@ -59,7 +68,7 @@ export const Header: React.FC = () => {
                   AlgoViz
                 </h1>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Learn, Visualize, Master
+                  {getViewTitle()}
                 </p>
               </div>
             </div>

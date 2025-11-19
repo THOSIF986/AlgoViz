@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, BookOpen, Code, Gamepad2, Map, BarChart3, MessageCircle, Brain, Layers, X } from 'lucide-react';
+import { Home, BookOpen, Code, Gamepad2, Map, Brain, Layers, X } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
 export const Sidebar: React.FC = () => {
@@ -13,8 +13,6 @@ export const Sidebar: React.FC = () => {
     { id: 'code-visualizer', label: 'Code Lab', icon: Code },
     { id: 'games', label: 'Games', icon: Gamepad2 },
     { id: 'learning-journey', label: 'Journey', icon: Map },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'chat', label: 'AI Assistant', icon: MessageCircle },
   ];
 
   if (!isAuthenticated) {
@@ -30,7 +28,7 @@ export const Sidebar: React.FC = () => {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-
+      
       {/* Sidebar - Completely hidden by default, shows as overlay when opened */}
       <aside
         className={`fixed top-0 left-0 h-screen w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 overflow-y-auto z-50 transition-transform duration-300 ${

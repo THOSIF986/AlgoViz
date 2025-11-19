@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, Lightbulb, X } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Send, Bot, User, X } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { ChatMessage } from '../../types';
-import { generatePageExplanation } from '../../utils/pageExplanations';
+
 import { generateAIResponse } from '../../utils/aiResponses';
+import { generateDeepSeekResponse, shouldUseDeepSeek } from '../../utils/deepSeekAPI';
 
 interface ChatInterfaceProps {
   onClose?: () => void;
@@ -11,18 +12,42 @@ interface ChatInterfaceProps {
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloating = false }) => {
-  const { chatMessages, addChatMessage, currentView } = useStore();
+  const { chatMessages, addChatMessage } = useStore();
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBottom = useCallback(() => {
+    if (shouldAutoScroll && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [shouldAutoScroll]);
+
+  // Handle scroll events to determine if we should auto-scroll
+  const handleScroll = () => {
+    if (messagesContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      
+      // Only enable auto-scroll if user is near the bottom
+      setShouldAutoScroll(isNearBottom);
+    }
   };
 
   useEffect(() => {
+    // Add scroll listener
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  useEffect(() => {
     scrollToBottom();
-  }, [chatMessages]);
+  }, [chatMessages, scrollToBottom]);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -38,8 +63,31 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloatin
     setInputMessage('');
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      let aiResponse = '';
+      
+      // Check if we should use DeepSeek API
+      if (shouldUseDeepSeek(inputMessage)) {
+        // Use DeepSeek API for broader questions
+        aiResponse = await generateDeepSeekResponse(inputMessage, chatMessages);
+      } else {
+        // Use our built-in responses for algorithm/data structure questions
+        aiResponse = generateAIResponse(inputMessage);
+      }
+
+      const aiMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'ai',
+        content: aiResponse,
+        timestamp: new Date(),
+      };
+      
+      addChatMessage(aiMessage);
+      setIsTyping(false);
+    } catch (error) {
+      console.error('Error generating AI response:', error);
+      
+      // Fallback to built-in responses if DeepSeek fails
       const aiResponse = generateAIResponse(inputMessage);
       const aiMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -50,7 +98,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloatin
       
       addChatMessage(aiMessage);
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -59,36 +107,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloatin
       handleSendMessage();
     }
   };
-
-  const handleExplainCurrentPage = () => {
-    const pageExplanation = generatePageExplanation(currentView);
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      type: 'user',
-      content: `Explain the current page: ${currentView}`,
-      timestamp: new Date(),
-    };
-    addChatMessage(userMessage);
-    
-    setIsTyping(true);
-    setTimeout(() => {
-      const aiMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'ai',
-        content: pageExplanation,
-        timestamp: new Date(),
-      };
-      addChatMessage(aiMessage);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const quickQuestions = [
-    "Explain time complexity",
-    "What's the difference between BFS and DFS?",
-    "How does Quick Sort work?",
-    "When should I use dynamic programming?",
-  ];
 
   return (
     <div className="h-full flex flex-col">
@@ -104,7 +122,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloatin
                 AI Algorithm Assistant
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Ask me anything about algorithms, data structures, or code!
+                Ask me anything!
               </p>
             </div>
           </div>
@@ -121,31 +139,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloatin
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {chatMessages.length === 0 && (
-          <div className="text-center py-8">
-            <Sparkles className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Welcome to your AI Assistant!
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              I'm here to help you understand algorithms and solve coding problems.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-2xl mx-auto">
-              {quickQuestions.map((question, index) => (
-                <button
-                  key={index}
-                  onClick={() => setInputMessage(question)}
-                  className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
-                >
-                  {question}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
+      <div 
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto p-4 space-y-4"
+        onScroll={handleScroll}
+      >
         {chatMessages.map((message) => (
           <div
             key={message.id}
@@ -208,24 +206,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, isFloatin
 
       {/* Input */}
       <div className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 p-4">
-        {/* Explain Current Page Button */}
-        <div className="mb-3">
-          <button
-            onClick={handleExplainCurrentPage}
-            className="w-full py-2 px-4 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-lg font-medium transition-all flex items-center justify-center space-x-2"
-          >
-            <Lightbulb className="w-4 h-4" />
-            <span>Explain Current Page</span>
-          </button>
-        </div>
-        
         <div className="flex space-x-3">
           <div className="flex-1">
             <textarea
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask me about algorithms, data structures, or get code help..."
+              placeholder="Ask me anything..."
               className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               rows={1}
               style={{ minHeight: '44px' }}

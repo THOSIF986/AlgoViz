@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Trophy, Clock, Star, Play, ArrowLeft } from 'lucide-react';
+import { Trophy, Clock, Star, Play } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { SortingGame } from './SortingGame';
 import { SearchingGame } from './SearchingGame';

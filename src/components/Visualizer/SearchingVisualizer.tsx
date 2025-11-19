@@ -5,7 +5,12 @@ interface SearchingVisualizerProps {
   highlighted: number[];
   algorithm?: string;
   currentStep?: number;
-  variables?: any;
+  variables?: {
+    left?: number;
+    right?: number;
+    found?: boolean;
+    foundIndex?: number;
+  };
   target?: string;
 }
 

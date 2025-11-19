@@ -5,7 +5,7 @@ interface SortingVisualizerProps {
   highlighted: number[];
   algorithm?: string;
   currentStep?: number;
-  variables?: any;
+  variables?: Record<string, unknown>;
 }
 
 export const SortingVisualizer: React.FC<SortingVisualizerProps> = ({ 
@@ -23,7 +23,6 @@ export const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   // Enhanced color scheme based on algorithm metaphors
   const getBarColor = (index: number, value: number) => {
     const isHighlighted = highlighted.includes(index);
-    const isComparing = highlighted.length === 2 && highlighted.includes(index);
     const isSorted = index < data.length && data.slice(0, index + 1).every((val, i) => i === 0 || val >= data[i - 1]);
     
     if (algorithm === 'bubble-sort') {

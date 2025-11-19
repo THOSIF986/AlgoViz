@@ -9,11 +9,13 @@ interface TreeNode {
 }
 
 interface TreeVisualizerProps {
-  data: any;
+  data: number[] | string;
   highlighted: number[];
   algorithm?: string;
   currentStep?: number;
-  variables?: any;
+  variables?: {
+    visited?: number[];
+  };
 }
 
 export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ 
@@ -51,7 +53,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({
   };
 
   // Calculate node positions
-  const calculatePositions = (root: TreeNode | null, width: number, height: number) => {
+  const calculatePositions = (root: TreeNode | null, width: number) => {
     if (!root) return;
     
     const levels: TreeNode[][] = [];
@@ -190,7 +192,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({
 
   const root = arrayToTree(treeData);
   if (root) {
-    calculatePositions(root, 600, 400);
+    calculatePositions(root, 600);
   }
 
   return (

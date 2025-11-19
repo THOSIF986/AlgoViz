@@ -3,9 +3,9 @@ import { Algorithm } from '../types';
 export interface VisualizationStep {
   step: number;
   description: string;
-  data: any;
+  data: unknown;
   highlighted: number[];
-  variables: { [key: string]: any };
+  variables: Record<string, unknown>;
   codeLine?: number;
 }
 
@@ -55,7 +55,7 @@ const parseArrayInput = (input: string): number[] => {
   return input.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
 };
 
-const parseGraphInput = (input: string): { nodes: any[], edges: any[] } => {
+const parseGraphInput = (input: string): { nodes: Array<{ id: number; x: number; y: number; visited: boolean }>, edges: Array<{ from: number; to: number }> } => {
   const edges = input.split(',').map(edge => {
     const [from, to] = edge.trim().split('-').map(x => parseInt(x));
     return { from, to };
@@ -77,7 +77,7 @@ const parseGraphInput = (input: string): { nodes: any[], edges: any[] } => {
   return { nodes, edges };
 };
 
-const parseWeightedGraphInput = (input: string): { nodes: any[], edges: any[] } => {
+const parseWeightedGraphInput = (input: string): { nodes: Array<{ id: number; x: number; y: number; visited: boolean; distance: number }>, edges: Array<{ from: number; to: number; weight: number }> } => {
   const edges = input.split(',').map(edge => {
     const [connection, weight] = edge.trim().split(':');
     const [from, to] = connection.split('-').map(x => parseInt(x));
@@ -433,12 +433,12 @@ const generateHeapSortSteps = (arr: number[]): VisualizationStep[] => {
   return generateBubbleSortSteps(arr); // Simplified for now
 };
 
-const generateBFSSteps = (graph: any): VisualizationStep[] => {
+const generateBFSSteps = (graph: { nodes: Array<{ id: number; x: number; y: number; visited: boolean }>, edges: Array<{ from: number; to: number }> }): VisualizationStep[] => {
   const steps: VisualizationStep[] = [];
   const { nodes, edges } = graph;
   const visited = new Set<number>();
   const queue: number[] = [0];
-  const nodesCopy = nodes.map((n: any) => ({ ...n, visited: false }));
+  const nodesCopy = nodes.map(n => ({ ...n, visited: false }));
   const parent: { [key: number]: number | null } = { 0: null };
 
   steps.push({
@@ -473,8 +473,8 @@ const generateBFSSteps = (graph: any): VisualizationStep[] => {
     });
 
     const neighbors = edges
-      .filter((e: any) => e.from === current)
-      .map((e: any) => e.to)
+      .filter(e => e.from === current)
+      .map(e => e.to)
       .filter((neighbor: number) => !visited.has(neighbor) && !queue.includes(neighbor));
 
     neighbors.forEach((neighbor: number) => {
@@ -511,12 +511,12 @@ const generateBFSSteps = (graph: any): VisualizationStep[] => {
   return steps;
 };
 
-const generateDFSSteps = (graph: any): VisualizationStep[] => {
+const generateDFSSteps = (graph: { nodes: Array<{ id: number; x: number; y: number; visited: boolean }>, edges: Array<{ from: number; to: number }> }): VisualizationStep[] => {
   const steps: VisualizationStep[] = [];
   const { nodes, edges } = graph;
   const visited = new Set<number>();
   const stack: number[] = [0];
-  const nodesCopy = nodes.map((n: any) => ({ ...n, visited: false }));
+  const nodesCopy = nodes.map(n => ({ ...n, visited: false }));
   const parent: { [key: number]: number | null } = { 0: null };
 
   steps.push({
@@ -552,8 +552,8 @@ const generateDFSSteps = (graph: any): VisualizationStep[] => {
     });
 
     const neighbors = edges
-      .filter((e: any) => e.from === current)
-      .map((e: any) => e.to)
+      .filter(e => e.from === current)
+      .map(e => e.to)
       .filter((neighbor: number) => !visited.has(neighbor))
       .reverse(); // Reverse to maintain left-to-right order when popping
 
@@ -593,14 +593,14 @@ const generateDFSSteps = (graph: any): VisualizationStep[] => {
   return steps;
 };
 
-const generateDijkstraSteps = (graph: any): VisualizationStep[] => {
+const generateDijkstraSteps = (graph: { nodes: Array<{ id: number; x: number; y: number; visited: boolean; distance: number }>, edges: Array<{ from: number; to: number; weight: number }> }): VisualizationStep[] => {
   const steps: VisualizationStep[] = [];
   const { nodes, edges } = graph;
   const distances: { [key: number]: number } = {};
   const visited = new Set<number>();
-  const nodesCopy = nodes.map((n: any) => ({ ...n, distance: Infinity, visited: false }));
+  const nodesCopy = nodes.map(n => ({ ...n, distance: Infinity, visited: false }));
 
-  nodes.forEach((node: any) => {
+  nodes.forEach(node => {
     distances[node.id] = Infinity;
   });
   distances[0] = 0;
@@ -640,9 +640,9 @@ const generateDijkstraSteps = (graph: any): VisualizationStep[] => {
       codeLine: 5
     });
 
-    const neighbors = edges.filter((e: any) => e.from === current);
+    const neighbors = edges.filter(e => e.from === current);
 
-    neighbors.forEach((edge: any) => {
+    neighbors.forEach(edge => {
       const neighbor = edge.to;
       const weight = edge.weight || 1;
       const newDist = distances[current] + weight;
@@ -752,7 +752,7 @@ const generateTowerOfHanoiSteps = (n: number): VisualizationStep[] => {
   return steps;
 };
 
-const generateKnapsackSteps = (input: any): VisualizationStep[] => {
+const generateKnapsackSteps = (input: { weights: number[], values: number[], capacity: number }): VisualizationStep[] => {
   const steps: VisualizationStep[] = [];
   const { weights, values, capacity } = input;
   const n = weights.length;

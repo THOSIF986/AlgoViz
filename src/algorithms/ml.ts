@@ -28,7 +28,7 @@ export const kMeansVisualization = (data: DataPoint[], k: number): Visualization
     description: `Initialize ${k} random centroids`,
     data: { points, centroids },
     highlighted: [],
-    code: `k = ${k}; centroids = randomInit();`,
+    codeLine: 1,
     variables: { k, iteration: 0, converged: false },
   });
 
@@ -40,7 +40,7 @@ export const kMeansVisualization = (data: DataPoint[], k: number): Visualization
     iteration++;
 
     // Assign points to nearest centroid
-    points.forEach((point, idx) => {
+    points.forEach((point) => {
       let minDistance = Infinity;
       let nearestCluster = 0;
 
@@ -65,7 +65,7 @@ export const kMeansVisualization = (data: DataPoint[], k: number): Visualization
       description: `Iteration ${iteration}: Assigned points to nearest centroids`,
       data: { points: [...points], centroids: [...centroids] },
       highlighted: [],
-      code: `assignPointsToClusters();`,
+      codeLine: 2,
       variables: { k, iteration, hasChanged },
     });
 
@@ -83,7 +83,7 @@ export const kMeansVisualization = (data: DataPoint[], k: number): Visualization
       description: `Updated centroids based on cluster means`,
       data: { points: [...points], centroids: [...centroids] },
       highlighted: [],
-      code: `updateCentroids();`,
+      codeLine: 3,
       variables: { k, iteration, hasChanged },
     });
   }
@@ -93,7 +93,7 @@ export const kMeansVisualization = (data: DataPoint[], k: number): Visualization
     description: 'K-Means clustering completed!',
     data: { points, centroids },
     highlighted: [],
-    code: 'return { clusters, centroids };',
+    codeLine: 4,
     variables: { k, iteration, converged: true },
   });
 
@@ -113,7 +113,7 @@ export const linearRegressionVisualization = (data: DataPoint[]): VisualizationS
     description: 'Calculate means of X and Y',
     data: { points: data, meanX, meanY },
     highlighted: [],
-    code: `meanX = ${meanX.toFixed(2)}, meanY = ${meanY.toFixed(2)}`,
+    codeLine: 1,
     variables: { n, meanX, meanY },
   });
 
@@ -128,7 +128,7 @@ export const linearRegressionVisualization = (data: DataPoint[]): VisualizationS
     description: 'Calculate slope and intercept',
     data: { points: data, meanX, meanY, slope, intercept },
     highlighted: [],
-    code: `slope = ${slope.toFixed(3)}, intercept = ${intercept.toFixed(3)}`,
+    codeLine: 2,
     variables: { slope, intercept, numerator, denominator },
   });
 
@@ -145,7 +145,7 @@ export const linearRegressionVisualization = (data: DataPoint[]): VisualizationS
     description: 'Linear regression line fitted!',
     data: { points: data, linePoints, equation: `y = ${slope.toFixed(3)}x + ${intercept.toFixed(3)}` },
     highlighted: [],
-    code: `y = ${slope.toFixed(3)}x + ${intercept.toFixed(3)}`,
+    codeLine: 3,
     variables: { slope, intercept, equation: true },
   });
 

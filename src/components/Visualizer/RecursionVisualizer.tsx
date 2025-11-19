@@ -1,23 +1,24 @@
 import React from 'react';
 
 interface RecursionVisualizerProps {
-  data: any;
-  highlighted: number[];
-  algorithm?: string;
+  data: string;
   currentStep?: number;
-  variables?: any;
+  variables?: {
+    towers?: number[][];
+    callStack?: Array<{ n: number; source: string; dest: string; aux: string }>;
+    currentMove?: string;
+    moves?: number;
+  };
 }
 
 export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({ 
   data, 
-  highlighted, 
-  algorithm = 'tower-of-hanoi',
   currentStep = 0,
   variables = {}
 }) => {
   const renderTowerOfHanoi = () => {
     const n = parseInt(data) || 3;
-    const towers = variables.towers || [
+    const towers = variables?.towers || [
       Array.from({ length: n }, (_, i) => n - i),
       [],
       []
@@ -29,7 +30,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
     
     return (
       <div className="flex justify-around items-end min-h-[400px] w-full px-8 py-6">
-        {towers.map((tower: number[], towerIndex: number) => (
+        {towers.map((tower, towerIndex) => (
           <div key={towerIndex} className="flex flex-col items-center">
             {/* Tower label */}
             <div className="mb-4 text-base md:text-lg font-bold text-gray-700 dark:text-gray-300">
@@ -49,7 +50,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
               
               {/* Disks */}
               <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex flex-col-reverse items-center z-10">
-                {tower.map((diskSize: number, diskIndex: number) => {
+                {tower.map((diskSize, diskIndex) => {
                   const width = Math.min(30 + diskSize * 15, maxDiskWidth);
                   const colors = [
                     'bg-red-500',
@@ -77,7 +78,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
   };
 
   const renderCallStack = () => {
-    const callStack = variables.callStack || [];
+    const callStack = variables?.callStack || [];
     
     return (
       <div className="flex flex-col items-center space-y-2">
@@ -85,7 +86,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
           Recursion Call Stack
         </h4>
         
-        {callStack.map((call: any, index: number) => (
+        {callStack.map((call, index) => (
           <div
             key={index}
             className={`p-4 rounded-lg border-2 transition-all duration-300 ${
@@ -124,7 +125,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
       </div>
 
       {/* Current Move Info */}
-      {variables.currentMove && (
+      {variables?.currentMove && (
         <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
           <p className="text-blue-800 dark:text-blue-300 font-medium">
             {variables.currentMove}
@@ -149,7 +150,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
       <div className="mt-4 grid grid-cols-3 gap-4 text-center">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
           <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-            {variables.moves || 0}
+            {variables?.moves || 0}
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400">Moves Made</p>
         </div>
@@ -163,7 +164,7 @@ export const RecursionVisualizer: React.FC<RecursionVisualizerProps> = ({
         
         <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
           <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {variables.callStack?.length || 0}
+            {variables?.callStack?.length || 0}
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400">Call Depth</p>
         </div>

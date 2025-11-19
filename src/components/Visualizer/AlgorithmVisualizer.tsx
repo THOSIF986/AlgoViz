@@ -9,6 +9,7 @@ import { RecursionVisualizer } from './RecursionVisualizer';
 import { DPVisualizer } from './DPVisualizer';
 import { generateVisualizationSteps } from '../../utils/algorithmEngine';
 import toast from 'react-hot-toast';
+import { VisualizationStep } from '../../types';
 
 export default function AlgorithmVisualizer() {
   const { selectedAlgorithm: algorithm, setCurrentView, updateUserProgress } = useStore();
@@ -17,7 +18,7 @@ export default function AlgorithmVisualizer() {
   const [speed, setSpeed] = useState(1);
   const [showCode, setShowCode] = useState(true);
   const [customInput, setCustomInput] = useState('');
-  const [steps, setSteps] = useState<any[]>([]);
+  const [steps, setSteps] = useState<VisualizationStep[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   const [target, setTarget] = useState('');
   const [hasCompletedOnce, setHasCompletedOnce] = useState(false);
@@ -50,7 +51,7 @@ export default function AlgorithmVisualizer() {
       setHasCompletedOnce(false);
       initializeAlgorithm();
     }
-  }, [algorithm]);
+  }, [algorithm, initializeAlgorithm]);
 
   // Auto-play functionality
   useEffect(() => {
@@ -92,7 +93,7 @@ export default function AlgorithmVisualizer() {
   const handleReset = () => {
     setCurrentStep(0);
     setIsPlaying(false);
-    toast.info('Algorithm reset to beginning');
+    toast('Algorithm reset to beginning'); // Changed from toast.info to toast
   };
 
   const handleStepForward = () => {
@@ -112,10 +113,11 @@ export default function AlgorithmVisualizer() {
     
     let randomInput = '';
     switch (algorithm.inputType) {
-      case 'array':
+      case 'array': {
         const randomArray = Array.from({ length: 8 }, () => Math.floor(Math.random() * 100) + 1);
         randomInput = randomArray.join(',');
         break;
+      }
       case 'graph':
         // Different random graphs for different algorithms
         if (algorithm.id === 'dijkstra') {
@@ -137,7 +139,7 @@ export default function AlgorithmVisualizer() {
     }
     
     setCustomInput(randomInput);
-    toast.info('Input randomized');
+    toast('Input randomized'); // Changed from toast.info to toast
   };
 
   const renderVisualizer = () => {

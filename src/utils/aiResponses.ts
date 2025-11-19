@@ -1,123 +1,277 @@
 export function generateAIResponse(userMessage: string): string {
   const lowerMessage = userMessage.toLowerCase();
   
+  // Enhanced response system with better matching
+  // Check for specific algorithm questions first
   // Merge sort
   if (lowerMessage.includes('merge sort') || lowerMessage.includes('mergesort')) {
-    return `🔀 **Merge Sort - The Reliable Divide & Conquer Algorithm**
+    return `## 🔀 Merge Sort - The Reliable Divide & Conquer Algorithm
 
-**🔧 How It Works:**
-1. **Divide**: Split array into two halves recursively
-2. **Conquer**: Sort each half recursively
-3. **Merge**: Combine two sorted halves into one sorted array
-4. **Base Case**: Single element (already sorted)
+## Summary
+Merge Sort is a stable, comparison-based sorting algorithm that guarantees O(n log n) time complexity in all cases. It works by recursively dividing the array into halves, sorting them, and then merging the sorted halves.
 
-**📊 Performance:**
-• **All Cases**: O(n log n) - Guaranteed!
-• **Space**: O(n) - Requires auxiliary array
-• **Stable**: Yes - maintains relative order of equal elements
+## How It Works
+### 1. Divide
+Split the array into two halves recursively until single elements remain
 
-**🏆 Key Advantages:**
-✅ **Predictable**: Always O(n log n), no worst case surprises
-✅ **Stable Sort**: Preserves order of equal elements
-✅ **Parallelizable**: Easy to implement in parallel
-✅ **External Sorting**: Great for sorting data that doesn't fit in memory
+### 2. Conquer
+Sort each half recursively (base case: single element arrays are already sorted)
 
-**⚠️ Disadvantages:**
-❌ Extra space needed (O(n))
-❌ Not in-place sorting
-❌ Slower than Quick Sort on average for arrays
+### 3. Merge
+Combine two sorted halves into one sorted array by comparing elements
 
-**💡 When to Use:**
+### 4. Base Case
+Single element arrays are inherently sorted
+
+## Performance Analysis
+### Time Complexity
+- **All Cases**: O(n log n) - Guaranteed performance regardless of input
+- **Reason**: Always divides problem into two equal halves (log n levels) with linear work per level (n)
+
+### Space Complexity
+- **Space**: O(n) - Requires auxiliary array for merging
+- **Recursion Stack**: O(log n) for recursive calls
+
+### Other Properties
+- **Stable**: Yes - maintains relative order of equal elements
+- **In-Place**: No - requires additional memory
+
+## Key Advantages
+- ✅ **Predictable**: Always O(n log n), no worst case surprises
+- ✅ **Stable Sort**: Preserves order of equal elements
+- ✅ **Parallelizable**: Easy to implement in parallel
+- ✅ **External Sorting**: Great for sorting data that doesn't fit in memory
+
+## Disadvantages
+- ❌ Extra space needed (O(n))
+- ❌ Not in-place sorting
+- ❌ Slower than Quick Sort on average for arrays
+
+## When to Use
 - Need guaranteed O(n log n) performance
 - Stability is important
 - Sorting linked lists (no extra space needed)
 - External sorting of large datasets
 - Parallel processing environments
 
-**🎯 Real-World Usage:**
+## Real-World Usage
 - Java's Collections.sort() for objects
 - Python's sorted() and list.sort()
 - Sorting large files that don't fit in RAM
 - Database systems
+
+## Examples
+\`\`\`javascript
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+  
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  
+  return merge(left, right);
+}
+
+function merge(left, right) {
+  let result = [];
+  let i = 0, j = 0;
+  
+  while (i < left.length && j < right.length) {
+    if (left[i] <= right[j]) {
+      result.push(left[i++]);
+    } else {
+      result.push(right[j++]);
+    }
+  }
+  
+  return result.concat(left.slice(i), right.slice(j));
+}
+\`\`\`
 
 🎮 See the merge process visually in our Merge Sort visualizer!`;
   }
   
   // Heap sort
   if (lowerMessage.includes('heap sort') || lowerMessage.includes('heapsort')) {
-    return `🏔️ **Heap Sort - In-Place with Guaranteed Performance**
+    return `## 🏔️ Heap Sort - In-Place with Guaranteed Performance
 
-**🔧 How It Works:**
-1. **Build Max Heap**: Transform array into max heap structure
-2. **Extract Max**: Swap root (max) with last element
-3. **Heapify**: Restore heap property for remaining elements
-4. **Repeat**: Until all elements are sorted
+## Summary
+Heap Sort is a comparison-based sorting algorithm that uses a binary heap data structure. It guarantees O(n log n) time complexity and sorts in-place with O(1) extra space.
 
-**📊 Performance:**
-• **All Cases**: O(n log n) - Guaranteed!
-• **Space**: O(1) - In-place sorting
-• **Stable**: No - doesn't preserve equal element order
+## How It Works
+### 1. Build Max Heap
+Transform the array into a max heap structure where parent nodes are greater than or equal to their children
 
-**🏆 Advantages:**
-✅ **Guaranteed O(n log n)**: No worst-case degradation
-✅ **In-Place**: No extra memory needed
-✅ **No Recursion Overhead**: Iterative implementation possible
-✅ **Good for Priority Queues**: Natural fit
+### 2. Extract Max
+Swap the root (maximum element) with the last element of the heap
 
-**⚠️ Disadvantages:**
-❌ Not stable
-❌ Slower than Quick Sort on average
-❌ Poor cache locality
+### 3. Heapify
+Restore the heap property for the remaining elements by "bubbling down" the new root
 
-**💡 When to Use:**
+### 4. Repeat
+Continue extracting maximum elements until the entire array is sorted
+
+## Performance Analysis
+### Time Complexity
+- **All Cases**: O(n log n) - Guaranteed performance
+- **Build Heap**: O(n) - More efficient than n insertions
+- **Extract Operations**: O(n log n) - n extractions, each O(log n)
+
+### Space Complexity
+- **Space**: O(1) - In-place sorting
+- **Recursion Stack**: O(log n) if using recursive heapify
+
+### Other Properties
+- **Stable**: No - doesn't preserve equal element order
+- **In-Place**: Yes - sorts within the original array
+
+## Advantages
+- ✅ **Guaranteed O(n log n)**: No worst-case degradation
+- ✅ **In-Place**: No extra memory needed
+- ✅ **No Recursion Overhead**: Iterative implementation possible
+- ✅ **Good for Priority Queues**: Natural fit
+
+## Disadvantages
+- ❌ Not stable
+- ❌ Slower than Quick Sort on average
+- ❌ Poor cache locality
+
+## When to Use
 - Need guaranteed O(n log n) without extra space
 - Memory is constrained
 - Don't need stability
 - Implementing priority queues
 
-**🎯 Heap Property:**
-- **Max Heap**: Parent ≥ Children
-- **Min Heap**: Parent ≤ Children
+## Heap Property
+### Max Heap
+Parent ≥ Children for all nodes
+
+### Min Heap
+Parent ≤ Children for all nodes
+
+## Examples
+\`\`\`javascript
+function heapSort(arr) {
+  const n = arr.length;
+  
+  // Build max heap
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+  
+  // Extract elements from heap one by one
+  for (let i = n - 1; i > 0; i--) {
+    // Move current root to end
+    [arr[0], arr[i]] = [arr[i], arr[0]];
+    
+    // Call heapify on the reduced heap
+    heapify(arr, i, 0);
+  }
+  
+  return arr;
+}
+
+function heapify(arr, n, i) {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+  
+  if (left < n && arr[left] > arr[largest]) {
+    largest = left;
+  }
+  
+  if (right < n && arr[right] > arr[largest]) {
+    largest = right;
+  }
+  
+  if (largest !== i) {
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    heapify(arr, n, largest);
+  }
+}
+\`\`\`
 
 🎮 Watch heap building and sorting in our visualizer!`;
   }
   
   // Bubble sort
   if (lowerMessage.includes('bubble sort') || lowerMessage.includes('bubblesort')) {
-    return `🫧 **Bubble Sort - The Teaching Algorithm**
+    return `## 🫧 Bubble Sort - The Teaching Algorithm
 
-**🔧 How It Works:**
-1. Compare adjacent elements
-2. Swap if they're in wrong order
-3. Repeat until no swaps needed
-4. Largest element "bubbles up" each pass
+## Summary
+Bubble Sort is a simple comparison-based sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they're in the wrong order. The largest elements "bubble up" to the end of the array with each pass.
 
-**📊 Performance:**
-• **Best Case**: O(n) - Already sorted (with optimization)
-• **Average**: O(n²) - Random order
-• **Worst Case**: O(n²) - Reverse sorted
-• **Space**: O(1) - In-place
-• **Stable**: Yes
+## How It Works
+### 1. Compare Adjacent Elements
+Check each pair of adjacent elements in the array
 
-**✅ Advantages:**
-- Simple to understand and implement
-- Detects already sorted arrays efficiently (optimized version)
-- Stable sort
-- In-place
+### 2. Swap if Needed
+If the first element is greater than the second, swap them
 
-**❌ Disadvantages:**
-- Very slow for large datasets
-- O(n²) makes it impractical for real use
-- Many unnecessary comparisons
+### 3. Repeat
+Continue this process for the entire array
 
-**💡 When to Use:**
+### 4. Largest Element "Bubbles Up"
+After each complete pass, the largest unsorted element moves to its correct position
+
+## Performance Analysis
+### Time Complexity
+- **Best Case**: O(n) - Already sorted (with optimization)
+- **Average**: O(n²) - Random order
+- **Worst Case**: O(n²) - Reverse sorted
+
+### Space Complexity
+- **Space**: O(1) - In-place sorting
+- **Recursion Stack**: O(1) - iterative implementation
+
+### Other Properties
+- **Stable**: Yes - equal elements maintain relative order
+- **In-Place**: Yes - sorts within the original array
+- **Adaptive**: Yes - performs better on partially sorted arrays
+
+## Advantages
+- ✅ Simple to understand and implement
+- ✅ Detects already sorted arrays efficiently (optimized version)
+- ✅ Stable sort
+- ✅ In-place
+
+## Disadvantages
+- ❌ Very slow for large datasets
+- ❌ O(n²) makes it impractical for real use
+- ❌ Many unnecessary comparisons
+
+## When to Use
 - Teaching purposes ONLY
 - Tiny datasets (< 10 elements)
 - Nearly sorted data with optimized version
 - Educational demonstrations
 
-**🎯 Optimization:**
-Add flag to detect if any swaps occurred. If no swaps in a pass, array is sorted!
+## Optimization
+Add a flag to detect if any swaps occurred during a pass. If no swaps happen, the array is sorted!
+
+## Examples
+\`\`\`javascript
+function bubbleSort(arr) {
+  const n = arr.length;
+  let swapped;
+  
+  for (let i = 0; i < n - 1; i++) {
+    swapped = false;
+    
+    for (let j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        swapped = true;
+      }
+    }
+    
+    // If no swaps occurred, array is sorted
+    if (!swapped) break;
+  }
+  
+  return arr;
+}
+\`\`\`
 
 **Real Talk:** Almost never used in production. Learn it to understand sorting concepts, then use better algorithms!
 
@@ -126,41 +280,82 @@ Add flag to detect if any swaps occurred. If no swaps in a pass, array is sorted
   
   // Insertion sort  
   if (lowerMessage.includes('insertion sort') || lowerMessage.includes('insertionsort')) {
-    return `📌 **Insertion Sort - Simple & Efficient for Small Data**
+    return `## 📌 Insertion Sort - Simple & Efficient for Small Data
 
-**🔧 How It Works:**
-1. Start with first element (considered sorted)
-2. Take next element
-3. Insert it into correct position in sorted portion
-4. Shift larger elements right
-5. Repeat for all elements
+## Summary
+Insertion Sort is a simple, adaptive sorting algorithm that builds the final sorted array one item at a time. It's efficient for small datasets and nearly sorted arrays.
 
-**📊 Performance:**
-• **Best Case**: O(n) - Already sorted
-• **Average**: O(n²) - Random order  
-• **Worst Case**: O(n²) - Reverse sorted
-• **Space**: O(1) - In-place
-• **Stable**: Yes
+## How It Works
+### 1. Start with First Element
+Consider the first element as a sorted subarray
 
-**🏆 Advantages:**
-✅ **Adaptive**: O(n) for nearly sorted data
-✅ **Online**: Can sort data as it arrives
-✅ **Stable**: Preserves equal element order
-✅ **In-Place**: No extra memory
-✅ **Simple**: Easy to implement
-✅ **Low Overhead**: Fast for small arrays
+### 2. Take Next Element
+Select the next unsorted element
 
-**💡 When to Use:**
+### 3. Insert into Correct Position
+Find the correct position in the sorted portion and insert the element
+
+### 4. Shift Larger Elements
+Move larger elements one position to the right to make space
+
+### 5. Repeat
+Continue until all elements are processed
+
+## Performance Analysis
+### Time Complexity
+- **Best Case**: O(n) - Already sorted
+- **Average**: O(n²) - Random order  
+- **Worst Case**: O(n²) - Reverse sorted
+
+### Space Complexity
+- **Space**: O(1) - In-place sorting
+- **Recursion Stack**: O(1) - iterative implementation
+
+### Other Properties
+- **Stable**: Yes - equal elements maintain relative order
+- **In-Place**: Yes - sorts within the original array
+- **Adaptive**: Yes - performs better on partially sorted arrays
+- **Online**: Yes - can sort data as it arrives
+
+## Advantages
+- ✅ **Adaptive**: O(n) for nearly sorted data
+- ✅ **Online**: Can sort data as it arrives
+- ✅ **Stable**: Preserves equal element order
+- ✅ **In-Place**: No extra memory
+- ✅ **Simple**: Easy to implement
+- ✅ **Low Overhead**: Fast for small arrays
+
+## When to Use
 - Small datasets (< 50 elements)
 - Nearly sorted data
 - Online sorting (streaming data)
 - As part of hybrid algorithms (like Timsort)
 - When simplicity matters
 
-**🎯 Real-World Usage:**
+## Real-World Usage
 - Quicksort switches to insertion sort for small subarrays
 - Timsort (Python's default) uses it for small runs
 - Shell sort is advanced version of insertion sort
+
+## Examples
+\`\`\`javascript
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let key = arr[i];
+    let j = i - 1;
+    
+    // Move elements greater than key one position ahead
+    while (j >= 0 && arr[j] > key) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    
+    arr[j + 1] = key;
+  }
+  
+  return arr;
+}
+\`\`\`
 
 **Fun Fact:** Like sorting playing cards in your hand!
 
@@ -169,206 +364,365 @@ Add flag to detect if any swaps occurred. If no swaps in a pass, array is sorted
   
   // Selection sort
   if (lowerMessage.includes('selection sort') || lowerMessage.includes('selectionsort')) {
-    return `🎯 **Selection Sort - Find Minimum, Repeat**
+    return `## 🎯 Selection Sort - Find Minimum, Repeat
 
-**🔧 How It Works:**
-1. Find minimum element in unsorted portion
-2. Swap it with first unsorted element
-3. Move boundary of sorted portion forward
-4. Repeat until array is sorted
+## Summary
+Selection Sort is an in-place comparison sorting algorithm that divides the input list into two parts: a sorted sublist and an unsorted sublist. It repeatedly selects the smallest (or largest) element from the unsorted sublist and moves it to the end of the sorted sublist.
 
-**📊 Performance:**
-• **All Cases**: O(n²) - Always the same!
-• **Space**: O(1) - In-place
-• **Stable**: No (can be made stable with modifications)
-• **Swaps**: O(n) - Minimal swaps
+## How It Works
+### 1. Find Minimum Element
+Locate the smallest element in the unsorted portion of the array
 
-**✅ Advantages:**
-- Minimal number of swaps: O(n)
-- Good when write operations are expensive
-- Simple implementation
-- In-place sorting
+### 2. Swap with First Unsorted Element
+Exchange the minimum element with the first element of the unsorted portion
 
-**❌ Disadvantages:**
-- Always O(n²) - doesn't adapt to sorted data
-- Not stable in standard form
-- Slow for large datasets
+### 3. Move Boundary Forward
+Advance the boundary between sorted and unsorted portions
 
-**💡 When to Use:**
+### 4. Repeat
+Continue until the entire array is sorted
+
+## Performance Analysis
+### Time Complexity
+- **All Cases**: O(n²) - Always the same regardless of input
+- **Comparisons**: O(n²) - (n-1) + (n-2) + ... + 1 = n(n-1)/2
+- **Swaps**: O(n) - exactly n-1 swaps in all cases
+
+### Space Complexity
+- **Space**: O(1) - In-place sorting
+- **Recursion Stack**: O(1) - iterative implementation
+
+### Other Properties
+- **Stable**: No (can be made stable with modifications)
+- **In-Place**: Yes - sorts within the original array
+- **Adaptive**: No - performs the same regardless of input order
+
+## Advantages
+- ✅ Minimal number of swaps: O(n)
+- ✅ Good when write operations are expensive
+- ✅ Simple implementation
+- ✅ In-place sorting
+
+## Disadvantages
+- ❌ Always O(n²) - doesn't adapt to sorted data
+- ❌ Not stable in standard form
+- ❌ Slow for large datasets
+
+## When to Use
 - Write operations are very expensive
 - Small datasets
 - Memory is extremely limited
 - Teaching sorting concepts
 
-**🎯 Special Use Case:**
+## Special Use Case
 Flash memory/EEPROM where writes are expensive but reads are cheap.
 
-**Comparison with Bubble Sort:**
-- Selection: Fewer swaps, always O(n²)
-- Bubble: More swaps, can be O(n) for sorted data
+## Comparison with Bubble Sort
+### Selection Sort
+- Fewer swaps
+- Always O(n²) time complexity
+
+### Bubble Sort
+- More swaps
+- Can be O(n) for sorted data with optimization
 
 Both are mainly educational algorithms!
+
+## Examples
+\`\`\`javascript
+function selectionSort(arr) {
+  const n = arr.length;
+  
+  for (let i = 0; i < n - 1; i++) {
+    // Find the minimum element in remaining unsorted array
+    let minIndex = i;
+    
+    for (let j = i + 1; j < n; j++) {
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j;
+      }
+    }
+    
+    // Swap the found minimum element with the first element
+    if (minIndex !== i) {
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+    }
+  }
+  
+  return arr;
+}
+\`\`\`
 
 🎮 Watch minimum selection in action!`;
   }
   
   // Binary search
   if (lowerMessage.includes('binary search') && !lowerMessage.includes('tree')) {
-    return `🎯 **Binary Search - The Logarithmic Power**
+    return `## 🎯 Binary Search - The Logarithmic Power
 
-**🔧 How It Works:**
-1. **Prerequisite**: Array MUST be sorted
-2. **Compare**: Check middle element
-3. **Decide**: Target < middle? Search left half
-4. **Decide**: Target > middle? Search right half
-5. **Found**: Target == middle? Done!
-6. **Repeat**: Until found or no elements left
+## Summary
+Binary Search is an efficient search algorithm that finds the position of a target value within a sorted array. It works by repeatedly dividing the search interval in half.
 
-**📊 Performance:**
-• **All Cases**: O(log n) - Extremely fast!
-• **Space**: O(1) iterative, O(log n) recursive
-• **Requires**: Sorted array
+## How It Works
+### Prerequisite
+Array MUST be sorted
 
-**🏆 Why It's Amazing:**
-✅ **Speed**: Log n means 1 billion items → 30 comparisons max!
-✅ **Efficient**: Eliminates half the search space each step
-✅ **Scalable**: Works great for large datasets
+### 1. Compare Middle Element
+Check if the target value matches the middle element of the array
 
-**💡 When to Use:**
+### 2. Decide Which Half
+- If target < middle: Search the left half
+- If target > middle: Search the right half
+- If target == middle: Found!
+
+### 3. Repeat
+Continue the process on the selected half until the element is found or the search space is empty
+
+## Performance Analysis
+### Time Complexity
+- **All Cases**: O(log n) - Extremely fast!
+- **Reason**: Eliminates half the search space with each comparison
+
+### Space Complexity
+- **Iterative**: O(1) - constant space
+- **Recursive**: O(log n) - recursion stack depth
+
+### Other Properties
+- **Requires**: Sorted array
+- **Stable**: Not applicable (search algorithm)
+
+## Why It's Amazing
+- ✅ **Speed**: Log n means 1 billion items → 30 comparisons max!
+- ✅ **Efficient**: Eliminates half the search space each step
+- ✅ **Scalable**: Works great for large datasets
+
+## When to Use
 - Searching in sorted array/list
 - Finding insertion position
 - Finding first/last occurrence
 - Range queries in sorted data
 
-**🎯 Variations:**
-- **Lower Bound**: First element ≥ target
-- **Upper Bound**: First element > target
-- **Exact Match**: Find specific element
-- **Rotated Array**: Modified binary search
+## Variations
+### Lower Bound
+First element ≥ target
 
-**⚠️ Common Mistakes:**
+### Upper Bound
+First element > target
+
+### Exact Match
+Find specific element
+
+### Rotated Array
+Modified binary search for rotated sorted arrays
+
+## Common Mistakes
 1. Forgetting array must be sorted
 2. Infinite loop: Use mid = left + (right - left) / 2
 3. Integer overflow: Avoid (left + right) / 2
 4. Off-by-one errors in boundaries
 
-**📚 Real-World:**
+## Real-World Applications
 - Dictionary lookup
 - Database indexing  
 - Version control (git bisect)
 - Finding bugs in code history
 
-**🎮 Interactive Demo:**
-See how search space halves with each comparison!
+## Examples
+\`\`\`javascript
+function binarySearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+  
+  while (left <= right) {
+    // Avoid integer overflow
+    const mid = left + Math.floor((right - left) / 2);
+    
+    if (arr[mid] === target) {
+      return mid; // Found target
+    } else if (arr[mid] < target) {
+      left = mid + 1; // Search right half
+    } else {
+      right = mid - 1; // Search left half
+    }
+  }
+  
+  return -1; // Target not found
+}
+\`\`\`
 
-**Pro Tip:** Master binary search - it's in 50%+ of coding interviews!`;
+## Pro Tip
+Master binary search - it's in 50%+ of coding interviews!
+
+🎮 See how search space halves with each comparison!`;
   }
   
   // Linear search
   if (lowerMessage.includes('linear search')) {
-    return `🔍 **Linear Search - The Simple Sequential Approach**
+    return `## 🔍 Linear Search - The Simple Sequential Approach
 
-**🔧 How It Works:**
-1. Start at first element
-2. Check if it matches target
-3. If yes, return index
-4. If no, move to next element
-5. Repeat until found or end of array
+## Summary
+Linear Search is the simplest search algorithm that sequentially checks each element of the list until a match is found or the entire list has been searched.
 
-**📊 Performance:**
-• **Best Case**: O(1) - Target is first element
-• **Average**: O(n/2) = O(n) - Target in middle
-• **Worst Case**: O(n) - Target at end or not present
-• **Space**: O(1)
+## How It Works
+### 1. Start at First Element
+Begin at the beginning of the array
 
-**✅ Advantages:**
-- Works on unsorted data
-- Simple to implement
-- No preprocessing needed
-- Works on any data structure (arrays, linked lists)
+### 2. Check for Match
+Compare the current element with the target value
 
-**❌ Disadvantages:**
-- Slow for large datasets
-- Doesn't take advantage of sorted data
+### 3. Return Index if Found
+If a match is found, return the index
 
-**💡 When to Use:**
+### 4. Move to Next Element
+If no match, proceed to the next element
+
+### 5. Repeat Until Found or End
+Continue until the element is found or the end of the array is reached
+
+## Performance Analysis
+### Time Complexity
+- **Best Case**: O(1) - Target is first element
+- **Average**: O(n/2) = O(n) - Target in middle
+- **Worst Case**: O(n) - Target at end or not present
+
+### Space Complexity
+- **Space**: O(1) - constant extra space
+- **Recursion Stack**: O(1) for iterative, O(n) for recursive
+
+### Other Properties
+- **Requires**: No special requirements (works on unsorted data)
+- **Stable**: Not applicable (search algorithm)
+
+## Advantages
+- ✅ Works on unsorted data
+- ✅ Simple to implement
+- ✅ No preprocessing needed
+- ✅ Works on any data structure (arrays, linked lists)
+
+## Disadvantages
+- ❌ Slow for large datasets
+- ❌ Doesn't take advantage of sorted data
+
+## When to Use
 - Small datasets (< 100 elements)
 - Unsorted data
 - Searching linked lists
 - One-time searches
 - When simplicity is priority
 
-**🎯 Comparison:**
-| Feature | Linear | Binary |
-|---------|--------|--------|
-| Sorted? | No | Yes |
-| Time | O(n) | O(log n) |
-| Simple? | Very | Moderate |
+## Comparison Table
+| Feature | Linear Search | Binary Search |
+|---------|---------------|---------------|
+| Sorted Data Required | No | Yes |
+| Time Complexity | O(n) | O(log n) |
+| Implementation Difficulty | Very Simple | Moderate |
+| Best Case | O(1) | O(1) |
+| Space Complexity | O(1) | O(1) iterative |
 
-**Real-World:**
+## Real-World Applications
 - Finding item in shopping cart
 - Checking if user exists in small list
 - Validating input against small whitelist
 
-**Optimization:** Use sentinels to eliminate boundary checks!
+## Optimization
+Use sentinels to eliminate boundary checks in some implementations!
+
+## Examples
+\`\`\`javascript
+function linearSearch(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i; // Return index of found element
+    }
+  }
+  
+  return -1; // Element not found
+}
+
+// Recursive version
+function linearSearchRecursive(arr, target, index = 0) {
+  // Base cases
+  if (index >= arr.length) return -1;
+  if (arr[index] === target) return index;
+  
+  // Recursive case
+  return linearSearchRecursive(arr, target, index + 1);
+}
+\`\`\`
 
 🎮 Watch sequential search in action!`;
   }
   
   // Hash table / HashMap
   if (lowerMessage.includes('hash') && (lowerMessage.includes('table') || lowerMessage.includes('map'))) {
-    return `#️⃣ **Hash Tables - O(1) Lookup Magic**
+    return `## #️⃣ Hash Tables - O(1) Lookup Magic
 
-**🔧 How It Works:**
-1. **Hash Function**: Converts key → index
-2. **Store**: Place value at computed index
-3. **Retrieve**: Hash key again to find value
-4. **Handle Collisions**: When two keys hash to same index
+## Summary
+A Hash Table (or Hash Map) is a data structure that implements an associative array abstract data type, mapping keys to values using a hash function to compute an index into an array of buckets or slots.
 
-**📊 Performance:**
-• **Average**: O(1) - Insert, Delete, Search
-• **Worst Case**: O(n) - All keys hash to same slot
-• **Space**: O(n)
+## How It Works
+### 1. Hash Function
+Converts a key into an index using a hash function
 
-**🔑 Collision Resolution:**
+### 2. Store Value
+Places the value at the computed index in the underlying array
 
-**1. Chaining:**
-- Each slot contains linked list
-- Multiple values can share same slot
-- Simple and flexible
+### 3. Retrieve Value
+Hashes the key again to find the index where the value is stored
 
-**2. Open Addressing:**
-- Find next available slot
-- Linear probing: Check next slot
-- Quadratic probing: Check i² slots away
-- Double hashing: Use second hash function
+### 4. Handle Collisions
+When two keys hash to the same index, resolve using collision resolution techniques
 
-**🏆 Advantages:**
-✅ **Fast Average**: O(1) for all operations
-✅ **Flexible Keys**: Any hashable type
-✅ **Constant Time**: Regardless of size
+## Performance Analysis
+### Time Complexity
+- **Average Case**: O(1) - Insert, Delete, Search
+- **Worst Case**: O(n) - All keys hash to same slot (poor hash function)
 
-**⚠️ Disadvantages:**
-❌ No ordering maintained
-❌ Space overhead
-❌ Worst case can be O(n)
-❌ Hash function quality critical
+### Space Complexity
+- **Space**: O(n) - where n is the number of key-value pairs
 
-**💡 Good Hash Function Properties:**
-- Deterministic: Same input → Same output
-- Uniform distribution: Minimize collisions
-- Fast to compute
-- Minimize patterns
+### Other Properties
+- **Ordering**: No guaranteed order of elements
+- **Duplicates**: Keys must be unique, values can be duplicated
 
-**🎯 When to Use:**
-- Need fast lookup/insert/delete
-- Key-value storage
-- Caching
+## Collision Resolution Methods
+### 1. Chaining
+- Each slot contains a linked list or dynamic array
+- Multiple values can share the same slot
+- Simple and flexible approach
+
+### 2. Open Addressing
+- Find the next available slot when collision occurs
+- **Linear Probing**: Check next slot sequentially
+- **Quadratic Probing**: Check slots at quadratic intervals
+- **Double Hashing**: Use a second hash function
+
+## Advantages
+- ✅ **Fast Average**: O(1) for all operations
+- ✅ **Flexible Keys**: Any hashable type
+- ✅ **Constant Time**: Regardless of size (average case)
+
+## Disadvantages
+- ❌ No ordering maintained
+- ❌ Space overhead
+- ❌ Worst case can be O(n)
+- ❌ Hash function quality critical
+
+## Good Hash Function Properties
+- **Deterministic**: Same input → Same output
+- **Uniform Distribution**: Minimize collisions
+- **Fast to Compute**: O(1) hash computation
+- **Minimize Patterns**: Avoid clustering
+
+## When to Use
+- Need fast lookup/insert/delete operations
+- Key-value storage requirements
+- Caching mechanisms
 - Counting frequencies
 - Detecting duplicates
 - Implementing sets
 
-**📚 Real-World:**
+## Real-World Applications
 - Database indexing
 - Caching (LRU cache)
 - Symbol tables in compilers
@@ -376,917 +730,1108 @@ See how search space halves with each comparison!
 - DNS resolution
 - Password storage (with cryptographic hash)
 
-**⚡ Load Factor:**
+## Load Factor
 λ = n / m (items / slots)
 - Keep λ < 0.7 for good performance
-- Rehash when load factor gets high
+- Rehash when load factor gets high (typically double the size)
 
-**Common Implementations:**
+## Common Implementations
 - JavaScript: Object, Map
 - Python: dict
 - Java: HashMap
 - C++: unordered_map
+
+## Examples
+\`\`\`javascript
+class HashTable {
+  constructor(size = 53) {
+    this.keyMap = new Array(size);
+  }
+  
+  _hash(key) {
+    let total = 0;
+    const PRIME = 31;
+    
+    for (let i = 0; i < Math.min(key.length, 100); i++) {
+      const char = key[i];
+      const value = char.charCodeAt(0) - 96;
+      total = (total * PRIME + value) % this.keyMap.length;
+    }
+    
+    return total;
+  }
+  
+  set(key, value) {
+    const index = this._hash(key);
+    
+    if (!this.keyMap[index]) {
+      this.keyMap[index] = [];
+    }
+    
+    // Check if key already exists
+    for (let i = 0; i < this.keyMap[index].length; i++) {
+      if (this.keyMap[index][i][0] === key) {
+        this.keyMap[index][i][1] = value;
+        return;
+      }
+    }
+    
+    this.keyMap[index].push([key, value]);
+  }
+  
+  get(key) {
+    const index = this._hash(key);
+    
+    if (this.keyMap[index]) {
+      for (let i = 0; i < this.keyMap[index].length; i++) {
+        if (this.keyMap[index][i][0] === key) {
+          return this.keyMap[index][i][1];
+        }
+      }
+    }
+    
+    return undefined;
+  }
+}
+\`\`\`
 
 🎮 Visualize hashing and collision resolution!`;
   }
   
   // Time Complexity
   if (lowerMessage.includes('time complexity') || lowerMessage.includes('big o')) {
-    return `🕒 **Time Complexity Analysis**
+    return `## 🕒 Time Complexity Analysis
 
-Time complexity describes how runtime grows as input size increases!
+## Summary
+Time complexity describes how the runtime of an algorithm grows as the input size increases. It's expressed using Big O notation, which provides an upper bound on the growth rate.
 
-**📊 Common Complexities (Best to Worst):**
+## Common Complexity Classes (Best to Worst)
+### O(1) - Constant Time
+- Accessing array elements by index
+- Hash table lookups
+- Push/pop operations on stack
 
-• **O(1)** - Constant: Array access, hash lookup
-• **O(log n)** - Logarithmic: Binary search, balanced trees
-• **O(n)** - Linear: Single loop, linear search
-• **O(n log n)** - Linearithmic: Merge sort, heap sort
-• **O(n²)** - Quadratic: Nested loops, bubble sort
-• **O(2ⁿ)** - Exponential: Recursive Fibonacci, subset generation
+### O(log n) - Logarithmic Time
+- Binary search
+- Balanced tree operations
+- Divide and conquer algorithms
 
-**🎯 Pro Tips:**
-- Always consider worst-case scenarios
-- Nested loops often indicate O(n²)
-- Divide-and-conquer usually gives O(n log n)
-- DP can reduce exponential to polynomial
+### O(n) - Linear Time
+- Single loop through all elements
+- Linear search
+- Iterating through array
+
+### O(n log n) - Linearithmic Time
+- Efficient sorting algorithms (Merge Sort, Heap Sort)
+- Some divide and conquer algorithms
+
+### O(n²) - Quadratic Time
+- Nested loops
+- Bubble Sort, Selection Sort
+- Comparing each element with every other element
+
+### O(2ⁿ) - Exponential Time
+- Recursive Fibonacci without memoization
+- Subset generation
+- Brute force algorithms
+
+## Pro Tips for Analysis
+1. Always consider worst-case scenarios
+2. Nested loops often indicate O(n²) complexity
+3. Divide-and-conquer usually gives O(n log n) complexity
+4. Dynamic Programming can reduce exponential to polynomial time
+5. Look for recursive patterns and use recurrence relations
+
+## Space Complexity
+Space complexity measures how much memory an algorithm uses as input size grows.
+
+### Common Space Complexities
+- O(1): Constant space (few variables)
+- O(log n): Recursion depth (binary search)
+- O(n): Linear space (extra array)
+- O(n²): Quadratic space (2D array)
+
+## Examples
+\`\`\`javascript
+// O(1) - Constant time
+function getFirstElement(arr) {
+  return arr[0];
+}
+
+// O(n) - Linear time
+function findMax(arr) {
+  let max = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  return max;
+}
+
+// O(n²) - Quadratic time
+function hasDuplicates(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] === arr[j]) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+// O(log n) - Logarithmic time
+function binarySearch(arr, target) {
+  let left = 0, right = arr.length - 1;
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) return mid;
+    if (arr[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return -1;
+}
+\`\`\`
 
 🔍 Want specifics? Ask about a particular algorithm!`;
   }
   
   // BFS vs DFS
   if (lowerMessage.includes('bfs') && lowerMessage.includes('dfs')) {
-    return `🌳 **BFS vs DFS Comparison**
+    return `## 🌳 BFS vs DFS Comparison
 
-**BFS (Breadth-First Search):**
-🔄 Strategy: Explores level by level
-📦 Uses: Queue (FIFO)
-🎯 Best For: Shortest path in unweighted graphs
-⚡ Space: O(V) - can use more memory
-✅ Finds minimum distance
+## Summary
+Breadth-First Search (BFS) and Depth-First Search (DFS) are two fundamental graph traversal algorithms that differ in their exploration strategy and use cases.
 
-**DFS (Depth-First Search):**
-🔄 Strategy: Goes as deep as possible first
-📦 Uses: Stack (LIFO) or recursion
-🎯 Best For: Exploring all paths, detecting cycles
-⚡ Space: O(h) - more memory efficient
-✅ Better for "existence" problems
+## Breadth-First Search (BFS)
+### Strategy
+Explores nodes level by level, visiting all neighbors of a node before moving to the next level
 
-**🎮 Real Applications:**
-- BFS: Social media connections, GPS routes, web crawling
-- DFS: Maze solving, topological sorting, cycle detection
+### Data Structure
+Uses a **Queue** (FIFO - First In, First Out)
+
+### Best For
+Finding the shortest path in unweighted graphs
+
+### Space Complexity
+O(V) - can use more memory as it stores all nodes at the current level
+
+### Guarantees
+Finds the minimum distance in unweighted graphs
+
+## Depth-First Search (DFS)
+### Strategy
+Goes as deep as possible along each branch before backtracking
+
+### Data Structure
+Uses a **Stack** (LIFO - Last In, First Out) or **Recursion**
+
+### Best For
+Exploring all paths, detecting cycles, and traversing trees
+
+### Space Complexity
+O(h) where h is the maximum depth - more memory efficient for deep graphs
+
+### Guarantees
+Better for "existence" problems (e.g., does a path exist?)
+
+## Performance Comparison
+| Aspect | BFS | DFS |
+|--------|-----|-----|
+| Strategy | Level-by-level | Deep-first |
+| Data Structure | Queue | Stack/Recursion |
+| Space Complexity | O(V) | O(h) |
+| Shortest Path | Guaranteed (unweighted) | Not guaranteed |
+| Memory Usage | Higher | Lower |
+| Solution Type | Optimal (shortest) | Any valid |
+
+## Real Applications
+### BFS Applications
+- Social media connections (finding friends of friends)
+- GPS navigation (shortest route in unweighted graphs)
+- Web crawling (breadth-first indexing)
+- Broadcasting in networks
+- Finding shortest path in unweighted graphs
+
+### DFS Applications
+- Maze solving
+- Topological sorting
+- Cycle detection in graphs
+- Path finding in mazes
+- Connected components in graphs
+- Tree traversals (inorder, preorder, postorder)
+
+## Examples
+\`\`\`javascript
+// BFS Implementation
+function bfs(graph, start) {
+  const visited = new Set();
+  const queue = [start];
+  const result = [];
+  
+  visited.add(start);
+  
+  while (queue.length > 0) {
+    const node = queue.shift();
+    result.push(node);
+    
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
+    }
+  }
+  
+  return result;
+}
+
+// DFS Implementation (Recursive)
+function dfs(graph, node, visited = new Set(), result = []) {
+  visited.add(node);
+  result.push(node);
+  
+  for (const neighbor of graph[node]) {
+    if (!visited.has(neighbor)) {
+      dfs(graph, neighbor, visited, result);
+    }
+  }
+  
+  return result;
+}
+
+// DFS Implementation (Iterative)
+function dfsIterative(graph, start) {
+  const visited = new Set();
+  const stack = [start];
+  const result = [];
+  
+  while (stack.length > 0) {
+    const node = stack.pop();
+    
+    if (!visited.has(node)) {
+      visited.add(node);
+      result.push(node);
+      
+      // Add neighbors to stack (reverse order for left-to-right traversal)
+      for (let i = graph[node].length - 1; i >= 0; i--) {
+        stack.push(graph[node][i]);
+      }
+    }
+  }
+  
+  return result;
+}
+\`\`\`
 
 🚀 Try our graph visualizer to see both in action!`;
   }
   
+  // More specific question matching
+  if (lowerMessage.includes('how') && lowerMessage.includes('work') && (lowerMessage.includes('bfs') || lowerMessage.includes('breadth'))) {
+    return `## 🚶 Breadth-First Search (BFS) - Level-by-Level Exploration
+
+## Summary
+Breadth-First Search (BFS) is a graph traversal algorithm that explores nodes level by level, visiting all neighbors of a node before moving to nodes at the next level. It's particularly useful for finding the shortest path in unweighted graphs.
+
+## How BFS Works
+### 1. Start at Root/Source
+Begin with the starting node (root in trees, source in graphs)
+
+### 2. Visit Neighbors
+Visit all immediate neighbors of the current node
+
+### 3. Move to Next Level
+Move to the neighbors of the neighbors (next level)
+
+### 4. Continue Process
+Repeat until all nodes have been visited
+
+## Data Structure Used
+**Queue** (FIFO - First In, First Out)
+- Ensures nodes are processed in the order they are discovered
+- Maintains the level-by-level exploration property
+
+## Algorithm Steps
+### Initialization
+1. Create an empty queue
+2. Mark the starting node as visited
+3. Enqueue the starting node
+
+### Main Loop
+1. While the queue is not empty:
+   - Dequeue a node
+   - Process the node (e.g., add to result)
+   - For each unvisited neighbor:
+     - Mark as visited
+     - Enqueue the neighbor
+
+## Applications
+### Shortest Path Problems
+- Finding the shortest path in unweighted graphs
+- Social network degree of separation
+- Web crawling with depth limits
+
+### Tree/Graph Traversal
+- Level-order traversal of trees
+- Finding connected components
+- Broadcasting in networks
+
+### Other Uses
+- Garbage collection algorithms
+- Serialization/deserialization of trees
+- Finding nodes at a given distance from source
+
+## Performance Analysis
+### Time Complexity
+- **Time**: O(V + E) where V = vertices, E = edges
+- **Reason**: Each vertex and edge is processed at most once
+
+### Space Complexity
+- **Space**: O(V) for the queue
+- **Auxiliary**: O(V) for the visited set
+- **Total**: O(V)
+
+## Key Insight
+BFS guarantees finding the shortest path in unweighted graphs because it explores all nodes at distance k before exploring nodes at distance k+1.
+
+## Examples
+\`\`\`javascript
+function bfs(graph, start) {
+  const visited = new Set();
+  const queue = [start];
+  const result = [];
+  
+  visited.add(start);
+  
+  while (queue.length > 0) {
+    // Dequeue the front node
+    const currentNode = queue.shift();
+    result.push(currentNode);
+    
+    // Visit all unvisited neighbors
+    for (const neighbor of graph[currentNode]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor); // Enqueue neighbor
+      }
+    }
+  }
+  
+  return result;
+}
+
+// BFS for finding shortest path in unweighted graph
+function bfsShortestPath(graph, start, target) {
+  const queue = [[start, 0]]; // [node, distance]
+  const visited = new Set([start]);
+  
+  while (queue.length > 0) {
+    const [node, distance] = queue.shift();
+    
+    if (node === target) {
+      return distance;
+    }
+    
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push([neighbor, distance + 1]);
+      }
+    }
+  }
+  
+  return -1; // Target not reachable
+}
+\`\`\`
+
+## BFS vs Other Algorithms
+| Algorithm | Strategy | Use Case | Time Complexity |
+|-----------|----------|----------|-----------------|
+| BFS | Level-by-level | Shortest path (unweighted) | O(V + E) |
+| DFS | Deep-first | Path existence, cycle detection | O(V + E) |
+| Dijkstra | Priority-based | Shortest path (weighted) | O((V + E) log V) |
+
+🎮 Try our BFS visualizer to see level-by-level exploration!`;
+  }
+  
+  if (lowerMessage.includes('how') && lowerMessage.includes('work') && (lowerMessage.includes('dfs') || lowerMessage.includes('depth'))) {
+    return `## 🧬 Depth-First Search (DFS) - Deep Exploration
+
+## Summary
+Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. It's particularly useful for exploring all possible paths and detecting cycles in graphs.
+
+## How DFS Works
+### 1. Start at Root/Source
+Begin with the starting node (root in trees, source in graphs)
+
+### 2. Explore Deep
+Go as deep as possible along the first branch
+
+### 3. Backtrack
+When no unvisited neighbors remain, backtrack to the previous node
+
+### 4. Continue Process
+Repeat until all nodes have been visited
+
+## Data Structures Used
+### Stack (Iterative Implementation)
+- **LIFO** (Last In, First Out) structure
+- Ensures deep exploration before backtracking
+
+### Recursion (Recursive Implementation)
+- Function call stack serves as the implicit stack
+- Often more intuitive to implement
+
+## Algorithm Steps (Recursive)
+### Base Case
+1. If current node is null or already visited, return
+
+### Recursive Case
+1. Mark current node as visited
+2. Process the node (e.g., add to result)
+3. For each unvisited neighbor:
+   - Recursively call DFS on neighbor
+
+## Algorithm Steps (Iterative)
+### Initialization
+1. Create an empty stack
+2. Push the starting node to stack
+3. Create a visited set
+
+### Main Loop
+1. While stack is not empty:
+   - Pop a node
+   - If not visited:
+     - Mark as visited
+     - Process it
+     - Push all unvisited neighbors to stack
+
+## Applications
+### Path Finding
+- Maze solving
+- Finding if a path exists between two nodes
+- Puzzle solving (Sudoku, N-Queens)
+
+### Graph Analysis
+- Cycle detection in directed and undirected graphs
+- Topological sorting
+- Strongly connected components
+
+### Tree Operations
+- Tree traversals (preorder, inorder, postorder)
+- Finding connected components
+- Generating mazes
+
+## Performance Analysis
+### Time Complexity
+- **Time**: O(V + E) where V = vertices, E = edges
+- **Reason**: Each vertex and edge is processed at most once
+
+### Space Complexity
+- **Recursive**: O(V) for the recursion stack (worst case: linear chain)
+- **Iterative**: O(V) for the explicit stack
+- **Auxiliary**: O(V) for the visited set
+- **Total**: O(V)
+
+## Key Insight
+DFS goes deep first, which makes it excellent for exploring all possible paths and detecting cycles. It naturally lends itself to backtracking problems.
+
+## Examples
+\`\`\`javascript
+// Recursive DFS Implementation
+function dfsRecursive(graph, node, visited = new Set(), result = []) {
+  // Mark current node as visited
+  visited.add(node);
+  result.push(node);
+  
+  // Visit all unvisited neighbors
+  for (const neighbor of graph[node]) {
+    if (!visited.has(neighbor)) {
+      dfsRecursive(graph, neighbor, visited, result);
+    }
+  }
+  
+  return result;
+}
+
+// Iterative DFS Implementation
+function dfsIterative(graph, start) {
+  const visited = new Set();
+  const stack = [start];
+  const result = [];
+  
+  while (stack.length > 0) {
+    // Pop the top node
+    const node = stack.pop();
+    
+    if (!visited.has(node)) {
+      visited.add(node);
+      result.push(node);
+      
+      // Push all unvisited neighbors (in reverse order for left-to-right traversal)
+      for (let i = graph[node].length - 1; i >= 0; i--) {
+        const neighbor = graph[node][i];
+        if (!visited.has(neighbor)) {
+          stack.push(neighbor);
+        }
+      }
+    }
+  }
+  
+  return result;
+}
+
+// DFS for cycle detection in directed graph
+function hasCycle(graph) {
+  const visiting = new Set(); // Nodes being processed
+  const visited = new Set();  // Nodes completely processed
+  
+  function dfs(node) {
+    if (visiting.has(node)) return true; // Back edge found - cycle!
+    if (visited.has(node)) return false; // Already processed
+    
+    visiting.add(node);
+    
+    for (const neighbor of graph[node]) {
+      if (dfs(neighbor)) return true;
+    }
+    
+    visiting.delete(node);
+    visited.add(node);
+    return false;
+  }
+  
+  // Check all nodes (in case of disconnected components)
+  for (const node in graph) {
+    if (!visited.has(node) && dfs(node)) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+\`\`\`
+
+## DFS vs Other Algorithms
+| Algorithm | Strategy | Use Case | Time Complexity |
+|-----------|----------|----------|-----------------|
+| DFS | Deep-first | Path existence, cycle detection | O(V + E) |
+| BFS | Level-by-level | Shortest path (unweighted) | O(V + E) |
+| Dijkstra | Priority-based | Shortest path (weighted) | O((V + E) log V) |
+
+🎮 Try our DFS visualizer to see deep exploration!`;
+  }
+  
   // Quick Sort
   if (lowerMessage.includes('quick sort') || lowerMessage.includes('quicksort')) {
-    return `⚡ **Quick Sort - The Speed Demon!**
+    return `## ⚡ Quick Sort - The Speed Demon!
 
-**🔧 How It Works:**
-1. Choose a pivot element
-2. Partition: smaller left, larger right
-3. Recursively sort left and right subarrays
-4. No merge needed - sorts in place!
+## Summary
+Quick Sort is a highly efficient, comparison-based sorting algorithm that uses a divide-and-conquer approach. It works by selecting a 'pivot' element and partitioning the array around the pivot, then recursively sorting the subarrays.
 
-**📊 Performance:**
-• Best/Average: O(n log n)
-• Worst: O(n²) - poor pivot choice
-• Space: O(log n) - recursion stack
+## How It Works
+### 1. Choose a Pivot
+Select an element from the array to serve as the pivot (various strategies possible)
 
-**🏆 Why It's Amazing:**
-✅ In-place sorting
-✅ Cache-friendly
-✅ Used in most standard libraries
-✅ Parallelizable
+### 2. Partition
+Rearrange the array so that:
+- Elements less than the pivot come before it
+- Elements greater than the pivot come after it
+- The pivot is in its final sorted position
 
-**💡 Optimization Tricks:**
-- Random pivot avoids worst-case
-- 3-way partitioning handles duplicates
-- Switch to insertion sort for small arrays
+### 3. Recursively Sort Subarrays
+Apply the same process to the subarray of elements less than the pivot and the subarray of elements greater than the pivot
+
+### 4. No Merge Needed
+Unlike Merge Sort, Quick Sort sorts in place, so no merging step is required
+
+## Performance Analysis
+### Time Complexity
+- **Best/Average Case**: O(n log n) - Good pivot choices lead to balanced partitions
+- **Worst Case**: O(n²) - Poor pivot choices (e.g., always picking min/max)
+- **Reason**: Depth of recursion tree depends on pivot quality
+
+### Space Complexity
+- **Space**: O(log n) - Recursion stack depth for balanced partitions
+- **Worst Case**: O(n) - For highly unbalanced partitions
+
+### Other Properties
+- **Stable**: No - relative order of equal elements may change
+- **In-Place**: Yes - sorts within the original array
+- **Adaptive**: No - doesn't perform better on partially sorted data
+
+## Why It's Amazing
+- ✅ In-place sorting (minimal extra memory)
+- ✅ Cache-friendly due to good locality of reference
+- ✅ Used in most standard libraries (C qsort, C++ std::sort)
+- ✅ Parallelizable (different subarrays can be sorted independently)
+- ✅ Fast average case performance
+
+## Optimization Tricks
+### Random Pivot Selection
+Choose pivot randomly to avoid worst-case on sorted/reverse-sorted data
+
+### 3-Way Partitioning
+Handle duplicate elements efficiently by partitioning into three groups:
+- Less than pivot
+- Equal to pivot
+- Greater than pivot
+
+### Hybrid Approach
+Switch to insertion sort for small arrays (typically < 10 elements)
+
+### Tail Recursion Optimization
+Optimize the recursive calls to reduce stack space
+
+## Examples
+\`\`\`javascript
+function quickSort(arr, low = 0, high = arr.length - 1) {
+  if (low < high) {
+    // Partition the array and get pivot index
+    const pivotIndex = partition(arr, low, high);
+    
+    // Recursively sort elements before and after partition
+    quickSort(arr, low, pivotIndex - 1);
+    quickSort(arr, pivotIndex + 1, high);
+  }
+  
+  return arr;
+}
+
+function partition(arr, low, high) {
+  // Choose rightmost element as pivot
+  const pivot = arr[high];
+  let i = low - 1; // Index of smaller element
+  
+  for (let j = low; j < high; j++) {
+    // If current element is smaller than or equal to pivot
+    if (arr[j] <= pivot) {
+      i++;
+      [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
+    }
+  }
+  
+  // Place pivot in correct position
+  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+  return i + 1; // Return pivot index
+}
+
+// Randomized Quick Sort
+function randomizedQuickSort(arr, low = 0, high = arr.length - 1) {
+  if (low < high) {
+    // Randomly choose pivot and swap with last element
+    const randomIndex = Math.floor(Math.random() * (high - low + 1)) + low;
+    [arr[randomIndex], arr[high]] = [arr[high], arr[randomIndex]];
+    
+    const pivotIndex = partition(arr, low, high);
+    randomizedQuickSort(arr, low, pivotIndex - 1);
+    randomizedQuickSort(arr, pivotIndex + 1, high);
+  }
+  
+  return arr;
+}
+\`\`\`
+
+## Quick Sort vs Other Algorithms
+| Algorithm | Time (Average) | Time (Worst) | Space | Stable |
+|-----------|----------------|--------------|-------|--------|
+| Quick Sort | O(n log n) | O(n²) | O(log n) | No |
+| Merge Sort | O(n log n) | O(n log n) | O(n) | Yes |
+| Heap Sort | O(n log n) | O(n log n) | O(1) | No |
 
 🎮 See it in action with our visualizer!`;
   }
 
   // Dynamic Programming
   if (lowerMessage.includes('dynamic programming') || lowerMessage.includes(' dp ') || lowerMessage.includes('when') && lowerMessage.includes('dp')) {
-    return `🧠 **Dynamic Programming Guide**
+    return `## 🧠 Dynamic Programming Guide
 
-**🎯 When to Use DP:**
-✅ Optimal substructure - optimal solution contains optimal subsolutions
-✅ Overlapping subproblems - same problems solved multiple times
-✅ Optimization problems - finding max/min or counting
+## Summary
+Dynamic Programming (DP) is a method for solving complex problems by breaking them down into simpler subproblems, solving each subproblem just once, and storing their solutions to avoid redundant computations.
 
-**🔄 Two Approaches:**
+## When to Use DP
+### Optimal Substructure
+The optimal solution contains optimal solutions to subproblems
 
-**Memoization (Top-Down):**
-- Start with original problem
-- Break into subproblems recursively
-- Cache results
-- More intuitive
+### Overlapping Subproblems
+The same subproblems are solved multiple times
 
-**Tabulation (Bottom-Up):**
-- Start with smallest subproblems
-- Build up to original
-- Fill table systematically
-- More space-efficient
+### Optimization Problems
+Finding maximum, minimum, or counting solutions
 
-**🏆 Classic Problems:**
-- Fibonacci: O(2ⁿ) → O(n)
-- 0/1 Knapsack: Max value within weight
-- LCS: Longest Common Subsequence
-- Edit Distance: String transformation
-- Coin Change: Minimum coins needed
+## Two Main Approaches
+### Memoization (Top-Down)
+1. Start with the original problem
+2. Break into subproblems recursively
+3. Cache results to avoid recomputation
+4. More intuitive and closer to natural problem-solving
 
-**💡 Problem-Solving Steps:**
-1. Identify optimal substructure
-2. Define recurrence relation
-3. Choose memoization or tabulation
-4. Implement solution
-5. Optimize space if possible
+### Tabulation (Bottom-Up)
+1. Start with the smallest subproblems
+2. Build up solutions to larger problems
+3. Fill a table systematically
+4. More space-efficient in some cases
+
+## Classic Problems and Solutions
+### Fibonacci Sequence
+\`\`\`javascript
+// Naive recursive - O(2^n)
+function fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+}
+
+// Memoization - O(n)
+function fibMemo(n, memo = {}) {
+  if (n in memo) return memo[n];
+  if (n <= 1) return n;
+  
+  memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
+  return memo[n];
+}
+
+// Tabulation - O(n)
+function fibTab(n) {
+  if (n <= 1) return n;
+  
+  const dp = new Array(n + 1);
+  dp[0] = 0;
+  dp[1] = 1;
+  
+  for (let i = 2; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
+  }
+  
+  return dp[n];
+}
+\`\`\`
+
+### 0/1 Knapsack Problem
+\`\`\`javascript
+function knapsack(weights, values, capacity) {
+  const n = weights.length;
+  // dp[i][w] = maximum value with first i items and weight limit w
+  const dp = Array(n + 1).fill(null).map(() => Array(capacity + 1).fill(0));
+  
+  for (let i = 1; i <= n; i++) {
+    for (let w = 0; w <= capacity; w++) {
+      // Don't take item i-1
+      dp[i][w] = dp[i - 1][w];
+      
+      // Take item i-1 if it fits
+      if (weights[i - 1] <= w) {
+        dp[i][w] = Math.max(
+          dp[i][w],
+          dp[i - 1][w - weights[i - 1]] + values[i - 1]
+        );
+      }
+    }
+  }
+  
+  return dp[n][capacity];
+}
+\`\`\`
+
+### Longest Common Subsequence (LCS)
+\`\`\`javascript
+function lcs(str1, str2) {
+  const m = str1.length;
+  const n = str2.length;
+  
+  // dp[i][j] = length of LCS of str1[0..i-1] and str2[0..j-1]
+  const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+  
+  return dp[m][n];
+}
+\`\`\`
+
+### Coin Change (Minimum Coins)
+\`\`\`javascript
+function coinChange(coins, amount) {
+  // dp[i] = minimum coins needed for amount i
+  const dp = new Array(amount + 1).fill(Infinity);
+  dp[0] = 0; // 0 coins needed for amount 0
+  
+  for (let i = 1; i <= amount; i++) {
+    for (const coin of coins) {
+      if (coin <= i) {
+        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+      }
+    }
+  }
+  
+  return dp[amount] === Infinity ? -1 : dp[amount];
+}
+\`\`\`
+
+## Problem-Solving Steps
+### 1. Identify Optimal Substructure
+Determine how the optimal solution relates to optimal solutions of subproblems
+
+### 2. Define Recurrence Relation
+Express the solution in terms of solutions to smaller subproblems
+
+### 3. Choose Approach
+Decide between memoization (top-down) or tabulation (bottom-up)
+
+### 4. Implement Solution
+Write the code with proper base cases and recursive/memoized relations
+
+### 5. Optimize Space
+If possible, reduce space complexity by using only necessary previous states
+
+## Key Concepts
+### State
+A set of parameters that uniquely identifies a subproblem
+
+### Transition
+How to move from one state to another (the recurrence relation)
+
+### Base Case
+The simplest subproblems that can be solved directly
+
+### Memoization
+Storing computed results to avoid redundant calculations
+
+## Examples of DP Patterns
+### Linear DP
+Problems where state depends on previous states in a linear fashion
+- Fibonacci, House Robber, Climbing Stairs
+
+### Grid DP
+Problems on 2D grids where you move in specific directions
+- Unique Paths, Minimum Path Sum
+
+### Interval DP
+Problems where you solve for ranges or intervals
+- Matrix Chain Multiplication, Burst Balloons
+
+### Tree DP
+Problems on tree structures where you compute values for subtrees
+- Diameter of Tree, Maximum Path Sum in Binary Tree
+
+## Common Mistakes
+1. Not identifying overlapping subproblems
+2. Incorrect recurrence relation
+3. Forgetting base cases
+4. Inefficient space usage
+5. Not considering all possible transitions
 
 🚀 Try our DP visualizer to see subproblems build up!`;
   }
 
-  // Machine Learning
-  if (lowerMessage.includes('machine learning') || lowerMessage.includes(' ml ') || lowerMessage.includes(' ai ')) {
-    return `🤖 **Machine Learning Basics**
-
-**🎯 Three Main Types:**
-
-**1. Supervised Learning** 📚
-- Learn from labeled examples
-- Examples: Classification, regression
-- Algorithms: Linear regression, decision trees, neural networks
-
-**2. Unsupervised Learning** 🔍
-- Find patterns in unlabeled data
-- Examples: Clustering, dimensionality reduction
-- Algorithms: K-means, PCA, autoencoders
-
-**3. Reinforcement Learning** 🎮
-- Learn through trial and error with rewards
-- Examples: Game playing, robotics
-- Algorithms: Q-learning, policy gradients
-
-**🔧 Essential Algorithms:**
-- Linear Regression: Predict continuous values
-- Decision Trees: Easy to interpret
-- Neural Networks: Complex pattern recognition
-- K-Means: Group similar data points
-
-**🎯 ML Workflow:**
-1. Data Collection
-2. Preprocessing
-3. Model Selection
-4. Training
-5. Evaluation
-6. Deployment
-7. Monitoring
-
-**💡 Key Concepts:**
-- Overfitting vs Underfitting
-- Cross-Validation
-- Feature Engineering
-- Bias-Variance Tradeoff
-
-🎮 Explore our ML visualizers!`;
-  }
-
-  // Recursion
-  if (lowerMessage.includes('recursion') || lowerMessage.includes('recursive')) {
-    return `🔄 **Recursion Explained**
-
-A function calling itself with smaller inputs!
-
-**🏗️ Anatomy:**
-1. **Base Case** 🛑 - Stopping condition
-2. **Recursive Case** 🔄 - Function calls itself with smaller input
-
-**📚 Classic Examples:**
-- Factorial: n × factorial(n-1)
-- Fibonacci: fib(n-1) + fib(n-2)
-- Tree Traversal: Natural recursive structure
-
-**💡 When to Use:**
-✅ Tree/Graph problems
-✅ Divide & Conquer
-✅ Mathematical sequences
-✅ Backtracking
-✅ Parsing nested structures
-
-**⚠️ Pitfalls:**
-❌ Stack overflow - too many calls
-❌ Inefficiency - repeated calculations
-❌ Memory usage - stack space per call
-
-**🚀 Optimizations:**
-- Memoization: Cache results
-- Tail Recursion: Last operation is recursive call
-- Convert to Iteration: Use explicit stack
-
-**🧠 Thinking Recursively:**
-1. Identify the pattern
-2. Find the base case
-3. Define recursive relation
-4. Trust the recursion!
-
-🎮 Watch recursion visualizers to see call stack!`;
-  }
-
-  // Sorting algorithms
-  if (lowerMessage.includes('sorting') || lowerMessage.includes('sort algorithm')) {
-    return `🔄 **Sorting Algorithms Overview**
-
-**🎯 Main Categories:**
-
-**Simple Sorts (O(n²)):**
-- **Bubble Sort**: Swap adjacent, largest bubbles up
-- **Selection Sort**: Find minimum, place at front
-- **Insertion Sort**: Insert each into sorted portion
-- ✅ Good for: Small arrays, nearly sorted data
-
-**Efficient Sorts (O(n log n)):**
-- **Merge Sort**: Divide, sort, merge - stable & predictable
-- **Quick Sort**: Pivot partition - fast average case
-- **Heap Sort**: Binary heap - in-place & O(n log n) guarantee
-- ✅ Good for: Large datasets, general purpose
-
-**Specialized Sorts:**
-- **Counting Sort**: O(n+k) for integers in range
-- **Radix Sort**: O(d×n) for fixed-length numbers
-- **Bucket Sort**: O(n) average for uniform distribution
-
-**📊 Comparison:**
-| Algorithm | Time | Space | Stable |
-|-----------|------|-------|--------|
-| Bubble    | O(n²)| O(1)  | Yes    |
-| Merge     | O(n log n)| O(n) | Yes |
-| Quick     | O(n log n)| O(log n) | No |
-| Heap      | O(n log n)| O(1) | No |
-
-**💡 Choosing the Right One:**
-- **Need stability?** → Merge Sort
-- **Memory constrained?** → Heap Sort
-- **General purpose?** → Quick Sort
-- **Nearly sorted?** → Insertion Sort
-- **Small array?** → Insertion Sort
-
-🎮 Use our visualizers to compare them side-by-side!`;
-  }
-
-  // Searching algorithms
-  if (lowerMessage.includes('search') && (lowerMessage.includes('algorithm') || lowerMessage.includes('binary') || lowerMessage.includes('linear'))) {
-    return `🔍 **Searching Algorithms**
-
-**🎯 Common Search Methods:**
-
-**Linear Search:**
-- Check each element sequentially
-- Time: O(n)
-- Space: O(1)
-- ✅ Works on unsorted data
-- ✅ Simple to implement
-- Use when: Small dataset or unsorted
-
-**Binary Search:**
-- Divide and conquer on sorted data
-- Time: O(log n)
-- Space: O(1) iterative, O(log n) recursive
-- ✅ Very fast for large datasets
-- ❌ Requires sorted array
-- Use when: Large sorted dataset
-
-**Jump Search:**
-- Jump ahead by √n steps
-- Time: O(√n)
-- Between linear and binary
-- Use when: Binary search is complex to implement
-
-**Interpolation Search:**
-- Smart guessing based on value
-- Time: O(log log n) for uniform data
-- Use when: Data uniformly distributed
-
-**Hash-Based Search:**
-- Direct access via hash function
-- Time: O(1) average
-- Space: O(n) for hash table
-- Use when: Need fastest possible lookup
-
-**🌳 Tree-Based Search:**
-- Binary Search Trees: O(log n) balanced
-- B-Trees: Efficient for databases
-- Tries: Great for string prefix matching
-
-**💡 Selection Guide:**
-- **Unsorted data?** → Linear Search
-- **Sorted array?** → Binary Search
-- **Need O(1)?** → Hash Table
-- **Prefix matching?** → Trie
-- **Range queries?** → Binary Search Tree
-
-🎮 Try our search visualizers!`;
-  }
-
-  // Graph algorithms
-  if (lowerMessage.includes('graph') || lowerMessage.includes('dijkstra') || lowerMessage.includes('shortest path')) {
-    return `🌐 **Graph Algorithms**
-
-**🎯 Essential Graph Algorithms:**
-
-**Traversal:**
-- **BFS**: Level-order, shortest path (unweighted)
-- **DFS**: Explore deep, cycle detection
-
-**Shortest Path:**
-- **Dijkstra's**: Weighted graphs, non-negative weights
-- **Bellman-Ford**: Handles negative weights
-- **A***: Heuristic-guided, optimal & efficient
-- **Floyd-Warshall**: All pairs shortest path
-
-**Minimum Spanning Tree:**
-- **Prim's**: Grow tree from single vertex
-- **Kruskal's**: Sort edges, add if no cycle
-
-**Advanced:**
-- **Topological Sort**: Order with dependencies
-- **Strongly Connected Components**: Tarjan's/Kosaraju's
-- **Network Flow**: Max flow problems
-
-**📊 Complexity Comparison:**
-| Algorithm | Time | Use Case |
-|-----------|------|----------|
-| BFS | O(V+E) | Unweighted shortest path |
-| DFS | O(V+E) | Cycle detection, paths |
-| Dijkstra | O((V+E)log V) | Weighted shortest path |
-| Bellman-Ford | O(VE) | Negative weights |
-| A* | O(E) | Optimal heuristic search |
-
-**🎯 When to Use:**
-- **Unweighted shortest path?** → BFS
-- **Weighted shortest path?** → Dijkstra's or A*
-- **Negative weights?** → Bellman-Ford
-- **Detect cycles?** → DFS
-- **All pairs?** → Floyd-Warshall
-
-🗺️ Explore with our graph visualizer!`;
-  }
-
-  // Arrays and strings
-  if (lowerMessage.includes('array') || lowerMessage.includes('string')) {
-    return `📊 **Arrays & Strings**
-
-**🎯 Common Operations:**
-
-**Array Basics:**
-- Access: O(1)
-- Search: O(n) unsorted, O(log n) sorted
-- Insert: O(n) middle, O(1) end
-- Delete: O(n) middle, O(1) end
-
-**Classic Array Problems:**
-- Two Sum / Two Pointers
-- Sliding Window technique
-- Kadane's Algorithm (max subarray)
-- Dutch National Flag (3-way partition)
-- Rotate array
-- Find duplicates
-
-**String Operations:**
-- Palindrome checking
-- Anagram detection
-- String matching (KMP, Rabin-Karp)
-- Longest substring problems
-- String reversal
-
-**💡 Common Patterns:**
-
-**Two Pointers:**
-- One slow, one fast
-- Both ends moving inward
-- Use for: Pairs, palindromes, partitioning
-
-**Sliding Window:**
-- Maintain window of elements
-- Expand/contract as needed
-- Use for: Subarray problems, longest/shortest substring
-
-**Hash Map:**
-- Track frequencies, indices
-- O(1) lookup
-- Use for: Duplicates, pairs summing to target
-
-**Prefix Sum:**
-- Precompute cumulative sums
-- O(1) range queries
-- Use for: Subarray sum problems
-
-**🚀 Optimization Tips:**
-- Use sets for O(1) lookups
-- Sort first if order doesn't matter
-- Consider space-time tradeoffs
-- In-place modifications when possible
-
-🎯 Practice these patterns on our platform!`;
-  }
-
-  // Data structures
-  if (lowerMessage.includes('data structure') || lowerMessage.includes('stack') || lowerMessage.includes('queue') || lowerMessage.includes('tree') || lowerMessage.includes('heap')) {
-    return `📦 **Data Structures Guide**
-
-**🎯 Fundamental Structures:**
-
-**Linear Structures:**
-- **Array**: O(1) access, fixed size
-- **Linked List**: O(1) insert/delete at head, dynamic
-- **Stack** (LIFO): Push/pop O(1), undo mechanisms
-- **Queue** (FIFO): Enqueue/dequeue O(1), task scheduling
-
-**Hierarchical:**
-- **Binary Tree**: Hierarchical data, O(log n) operations (balanced)
-- **BST**: Sorted tree, efficient search/insert
-- **Heap**: Priority queue, O(log n) insert/extract
-- **Trie**: Prefix tree, string operations
-
-**Hash-Based:**
-- **Hash Table**: O(1) average lookup/insert
-- **Hash Set**: Unique elements, O(1) contains
-
-**Advanced:**
-- **Graph**: Vertices & edges, networks/relationships
-- **Disjoint Set**: Union-find, connected components
-- **Segment Tree**: Range queries, O(log n) updates
-
-**📊 Selection Guide:**
-
-**Need LIFO?** → Stack
-**Need FIFO?** → Queue  
-**Fast lookup?** → Hash Table
-**Sorted data?** → BST or Heap
-**Priority handling?** → Heap
-**Hierarchical?** → Tree
-**Networks?** → Graph
-**Prefix matching?** → Trie
-
-**💡 Trade-offs:**
-- Arrays: Fast access, fixed size
-- Linked Lists: Dynamic, slower access
-- Trees: Balanced operations, complex
-- Hash Tables: Fast average, no order
-
-🎮 Build and explore structures interactively!`;
-  }
-
-  // Complexity analysis
-  if (lowerMessage.includes('complexity') || lowerMessage.includes('analyze')) {
-    return `📈 **Complexity Analysis**
-
-**⏱️ Time Complexity:**
-Measures how runtime grows with input size
-
-**Common Classes:**
-- O(1): Constant - hash lookup
-- O(log n): Logarithmic - binary search
-- O(n): Linear - loop through all
-- O(n log n): Efficient sort - merge/quick sort
-- O(n²): Quadratic - nested loops
-- O(2ⁿ): Exponential - recursive Fibonacci
-
-**💾 Space Complexity:**
-Measures memory usage growth
-
-**Common Cases:**
-- O(1): Constant - few variables
-- O(log n): Recursion depth - binary search
-- O(n): Linear - extra array
-- O(n²): Matrix - 2D array
-
-**🔍 How to Analyze:**
-
-**1. Identify Operations:**
-- Count significant operations
-- Ignore constants
-
-**2. Look for Loops:**
-- Single loop: O(n)
-- Nested loops: Multiply complexities
-- Sequential loops: Add complexities
-
-**3. Recursion:**
-- Draw recursion tree
-- Count nodes and work per node
-- T(n) = branches × T(n/divisor) + work
-
-**4. Amortized Analysis:**
-- Average over sequence of operations
-- Dynamic array resize: O(1) amortized
-
-**💡 Master Theorem:**
-For T(n) = aT(n/b) + O(n^d):
-- If a > b^d: O(n^log_b(a))
-- If a = b^d: O(n^d × log n)
-- If a < b^d: O(n^d)
-
-**🎯 Practical Tips:**
-- Focus on worst-case usually
-- Constants matter in practice
-- Consider both time AND space
-- Optimization: Lower complexity first, then constants
-
-📊 Practice analyzing with our algorithm visualizers!`;
-  }
-
-  // Binary Search Tree
-  if (lowerMessage.includes('bst') || lowerMessage.includes('binary search tree')) {
-    return `🌳 **Binary Search Tree (BST) - Ordered Tree Structure**
-
-**🔧 BST Property:**
-For every node:
-- **Left subtree**: All values < node value
-- **Right subtree**: All values > node value
-- This property holds recursively
-
-**📊 Performance:**
-• **Balanced Tree**: O(log n) - Search, Insert, Delete
-• **Unbalanced Tree**: O(n) - Worst case (becomes linked list)
-• **Space**: O(n)
-
-**🔍 Operations:**
-
-**Search**: Compare, go left if smaller, right if larger - O(log n) balanced
-**Insert**: Find position, add as leaf - O(log n) balanced
-**Delete**: 3 cases - leaf, one child, two children - O(log n) balanced
-
-**🎯 Traversals:**
-- **Inorder**: Gives sorted order!
-- **Preorder**: Root first, good for copying tree
-- **Postorder**: Root last, good for deleting tree
-- **Level-order**: BFS, level by level
-
-**💡 When to Use:**
-Dynamic sorted data, range queries, finding predecessor/successor
-
-🎮 Build and traverse BSTs interactively!`;
-  }
-  
-  // Stack
-  if (lowerMessage.includes('stack') && !lowerMessage.includes('call stack')) {
-    return `🪬 **Stack - LIFO (Last In, First Out)**
-
-**🔧 Core Operations:**
-- **Push**: Add to top - O(1)
-- **Pop**: Remove from top - O(1)
-- **Peek**: View top - O(1)
-- **IsEmpty**: Check if empty - O(1)
-
-**🎯 Real-World Uses:**
-1. **Function Call Stack**: Stores function calls and local variables
-2. **Undo/Redo**: Text editors, Photoshop
-3. **Expression Evaluation**: Postfix, infix to postfix
-4. **Backtracking**: DFS, maze solving, puzzle solving
-5. **Syntax Parsing**: Balanced parentheses, compilers
-
-**📝 Classic Problems:**
-- Balanced parentheses: Push '(', pop and match ')'
-- Reverse string: Push all, pop all
-- Next greater element: Stack-based O(n) solution
-
-**💡 When to Use:**
-LIFO order, recursion to iteration, backtracking, expression parsing
-
-🎮 Watch stack operations visually!`;
-  }
-  
-  // Queue  
-  if (lowerMessage.includes('queue') && !lowerMessage.includes('priority')) {
-    return `🚦 **Queue - FIFO (First In, First Out)**
-
-**🔧 Core Operations:**
-- **Enqueue**: Add to rear - O(1)
-- **Dequeue**: Remove from front - O(1)
-- **Front/Peek**: View front - O(1)
-- **IsEmpty**: Check if empty - O(1)
-
-**🎯 Real-World Uses:**
-1. **Task Scheduling**: CPU, print queue, thread pools
-2. **BFS Traversal**: Level-order, shortest path
-3. **Buffering**: IO buffers, streaming, message queues
-4. **Async Processing**: Event handling, callbacks
-5. **Resource Sharing**: Printer queue, downloads
-
-**🌟 Variants:**
-- **Deque**: Insert/remove both ends
-- **Circular Queue**: Efficient space usage
-- **Priority Queue**: Serve by priority (heap)
-
-**📝 Classic Problems:**
-- Generate binary numbers 1 to n
-- Sliding window maximum (deque)
-- Level order tree traversal
-
-**💡 When to Use:**
-FIFO order, BFS, scheduling, buffering, producer-consumer
-
-🎮 See queue operations in action!`;
-  }
-  
-  // Linked List
-  if (lowerMessage.includes('linked list')) {
-    return `🔗 **Linked List - Dynamic Linear Structure**
-
-**📚 Types:**
-1. **Singly**: One pointer (next) - forward only
-2. **Doubly**: Two pointers (next, prev) - both directions
-3. **Circular**: Last points to first - no null end
-
-**📊 Operations:**
-- **Insert at head**: O(1)
-- **Insert at tail**: O(1) with tail pointer, O(n) without
-- **Delete**: O(1) if node given, O(n) if searching
-- **Search**: O(n) - must traverse
-
-**✅ Advantages:**
-Dynamic size, efficient insert/delete at known position, no wasted space
-
-**❌ Disadvantages:**
-No random access, extra memory for pointers, cache unfriendly
-
-**📝 Classic Problems:**
-- **Reverse list**: 3 pointers or recursive
-- **Detect cycle**: Floyd's algorithm (tortoise & hare)
-- **Find middle**: Slow/fast pointers
-- **Merge sorted lists**: Compare and link
-- **Remove Nth from end**: Two pointers n apart
-
-**🎯 Array vs List:**
-- Array: O(1) access, O(n) insert/delete, contiguous
-- List: O(n) access, O(1) insert/delete*, scattered
-*At known position
-
-**💡 When to Use:**
-Frequent insertions/deletions, unknown size, implement stacks/queues
-
-🎮 Visualize node connections!`;
-  }
-  
-  // Priority Queue / Heap
-  if (lowerMessage.includes('priority queue') || (lowerMessage.includes('heap') && !lowerMessage.includes('sort'))) {
-    return `🏆 **Priority Queue - Serve by Priority**
-
-**📚 Concept:**
-Elements have priority - highest priority served first!
-Usually implemented with **Binary Heap**.
-
-**🔧 Heap Operations:**
-- **Insert**: Add element, bubble up - O(log n)
-- **Extract-Max/Min**: Remove root, bubble down - O(log n)
-- **Peek**: View root - O(1)
-- **Build Heap**: From array - O(n)
-
-**🎯 Heap Property:**
-- **Max Heap**: Parent ≥ all children
-- **Min Heap**: Parent ≤ all children
-
-**📊 Performance:**
-All operations O(log n) except peek O(1) and build O(n)
-
-**💡 When to Use:**
-- Find kth largest/smallest element
-- Merge k sorted arrays
-- Task scheduling by priority
-- Dijkstra's shortest path
-- Huffman coding
-- Median of stream
-
-**📝 Classic Problems:**
-- **Top K elements**: Use min heap of size k
-- **Median of stream**: Two heaps (max for lower, min for upper)
-- **Merge k sorted lists**: Min heap with heads
-
-**🎯 Heap vs BST:**
-- Heap: Fast min/max, not fully sorted
-- BST: Fully sorted, slower min/max
-
-**Real Applications:**
-- OS task scheduling
-- Event simulation
-- Network packet routing
-- Load balancing
-
-🎮 Watch heap operations live!`;
-  }
-  
-  // Trie
-  if (lowerMessage.includes('trie') || lowerMessage.includes('prefix tree')) {
-    return `🌳 **Trie - Prefix Tree for Strings**
-
-**📚 Concept:**
-Tree where each path represents a string.
-Each node has children for each character.
-
-**🔧 Operations:**
-- **Insert**: Add word character by character - O(m) where m = word length
-- **Search**: Follow path for word - O(m)
-- **StartsWith**: Check if prefix exists - O(m)
-- **Delete**: Remove word, clean up unused nodes - O(m)
-
-**🏆 Advantages:**
-✅ **Prefix matching**: Very fast
-✅ **Autocomplete**: Natural fit
-✅ **Spell checking**: Find similar words
-✅ **No collisions**: Unlike hash tables
-
-**❌ Disadvantages:**
-❌ Space intensive: O(ALPHABET_SIZE × N × M)
-❌ More complex than hash table
-
-**💡 When to Use:**
-- Autocomplete features
-- Spell checkers
-- IP routing (longest prefix match)
-- Dictionary implementations
-- Word games (Boggle solver)
-
-**🎯 Real Applications:**
-- Search engine autocomplete
-- T9 predictive text
-- Browser URL suggestions
-- Contact name search
-- Network routing tables
-
-**📝 Trie vs Hash Table:**
-| Feature | Trie | Hash |
-|---------|------|------|
-| Prefix search | O(m) | O(n×m) |
-| Space | More | Less |
-| Collisions | No | Yes |
-| Ordered | Yes | No |
-
-**🔥 Compressed Trie:**
-Radix tree - compress chains of single-child nodes to save space!
-
-🎮 Build tries and search prefixes!`;
-  }
-  
-  // Graph representations
-  if (lowerMessage.includes('graph') && (lowerMessage.includes('represent') || lowerMessage.includes('adjacency'))) {
-    return `🗺️ **Graph Representations**
-
-**🎯 Two Main Ways:**
-
-**1. Adjacency Matrix:**
-A 2D array where matrix[i][j] = 1 if edge exists from i to j, else 0
-
-**Performance:**
-- Space: O(V²)
-- Check edge: O(1)
-- Find neighbors: O(V)
-- Add edge: O(1)
-- Add vertex: O(V²) - resize matrix
-
-**Best for:**
-✅ Dense graphs (many edges)
-✅ Frequent edge lookups
-✅ Small graphs
-
-**2. Adjacency List:**
-Array of lists where list[i] contains all neighbors of vertex i
-
-**Performance:**
-- Space: O(V + E)
-- Check edge: O(degree)
-- Find neighbors: O(degree)
-- Add edge: O(1)
-- Add vertex: O(1)
-
-**Best for:**
-✅ Sparse graphs (few edges)
-✅ Most real-world graphs
-✅ Large graphs
-✅ Dynamic graphs
-
-**📊 Comparison:**
-
-| Operation | Matrix | List |
-|-----------|--------|------|
-| Space | O(V²) | O(V+E) |
-| Add edge | O(1) | O(1) |
-| Check edge | O(1) | O(V) |
-| Neighbors | O(V) | O(1) |
-
-**💡 When to Use:**
-
-**Matrix if:**
-- Dense graph (E close to V²)
-- Frequent edge existence checks
-- Small graph
-- Matrix operations needed
-
-**List if:**
-- Sparse graph (E much less than V²)
-- Iterate over neighbors often
-- Large graph
-- Dynamic (add/remove edges)
-
-**🌟 For Weighted Graphs:**
-- Matrix: store weight instead of 1
-- List: store (neighbor, weight) pairs
-
-**Real Usage:**
-Most algorithms use adjacency lists - real graphs are usually sparse!
-
-🎮 See both representations side by side!`;
-  }
-
-  // Default intelligent responses
+  // Default response for unmatched queries
   const intelligentResponses = [
-    `🤔 **Interesting Question!**
+    `## 🤔 Interesting Question!
 
-I'd love to help! Could you provide more details?
+## Summary
+I'd love to help you with your question about algorithms and data structures!
 
-**For better assistance, tell me:**
-- What specific algorithm or concept?
-- Are you looking for explanation, implementation, or comparison?
-- Any particular use case or problem you're solving?
-- What programming language do you prefer?
+## How I Can Assist
+To give you the best answer, please provide more details about what you're looking for:
 
-**💡 I can help with:**
-- Algorithm explanations (BFS, DFS, Quick Sort, etc.)
+### What I Can Help With
+- **Algorithm Explanations**: Detailed breakdowns of how algorithms work
+- **Code Implementation**: Examples in various programming languages
+- **Complexity Analysis**: Time and space complexity explanations
+- **Problem Solving**: Strategies for tackling coding challenges
+- **Comparisons**: Differences between similar concepts
+- **Interview Preparation**: Common questions and approaches
+
+### For Better Assistance
+1. **Be Specific**: Instead of "tell me about sorting," try "explain why quick sort has O(n²) worst case"
+2. **Mention Context**: What problem are you trying to solve?
+3. **Preferred Language**: If you want code examples, let me know your preferred programming language
+4. **Current Understanding**: What do you already know about the topic?
+
+## Popular Topics
+- Sorting algorithms (Quick Sort, Merge Sort, Heap Sort)
+- Searching algorithms (Binary Search, Linear Search)
+- Graph algorithms (BFS, DFS, Dijkstra's)
+- Tree algorithms (BST, AVL, Heap, Trie)
+- Dynamic Programming techniques
+- Data structures (Stack, Queue, Hash Table)
+- Complexity analysis (Big O notation)
+
+## Examples of Good Questions
+- "Explain how binary search works with examples"
+- "Compare merge sort and quick sort in terms of performance"
+- "When should I use a hash table vs a binary search tree?"
+- "Help me understand the time complexity of recursive algorithms"
+- "Show me how to implement a priority queue in Python"
+
+## Interactive Learning
+- Use our visualizers to see algorithms in action
+- Try our coding challenges to practice
+- Explore our interactive examples
+
+What specific topic would you like to learn about?`,
+    
+    `## 🎯 Great Topic!
+
+## Summary
+I can provide detailed explanations about algorithms and data structures! Let me guide you to the information you need.
+
+## How to Get the Best Help
+### For Concept Explanations
+Ask: "Explain [algorithm/concept]"
+Example: "Explain breadth-first search"
+
+### For Comparisons
+Ask: "Compare X vs Y"
+Example: "Compare stack vs queue"
+
+### For Implementation Help
+Ask for code examples and specify your preferred programming language
+Example: "Show me how to implement merge sort in Python"
+
+### For Problem Solving
+Describe your specific scenario or problem
+Example: "How can I find the shortest path in an unweighted graph?"
+
+## Available Topics
+### Sorting Algorithms
+- Quick Sort, Merge Sort, Heap Sort
+- Bubble Sort, Insertion Sort, Selection Sort
+
+### Searching Algorithms
+- Binary Search, Linear Search
+- Pattern matching algorithms
+
+### Graph Algorithms
+- BFS, DFS, Dijkstra's Algorithm
+- Minimum Spanning Tree, Topological Sort
+
+### Tree Algorithms
+- Binary Search Trees, AVL Trees
+- Heaps, Tries
+
+### Dynamic Programming
+- Memoization vs Tabulation
+- Classic problems and patterns
+
+### Data Structures
+- Arrays, Linked Lists
+- Stacks, Queues
+- Hash Tables, Sets
+
+## Learning Approach
+### Step 1: Concept Understanding
+I'll explain how it works with clear examples
+
+### Step 2: Implementation
+I'll show you code examples with detailed comments
+
+### Step 3: Analysis
+I'll break down time and space complexity
+
+### Step 4: Applications
+I'll share real-world use cases and when to apply the concept
+
+## Pro Tips
+1. **Be Specific**: "Explain merge sort" is better than "Explain sorting"
+2. **Ask for Examples**: "Show me with an example" helps solidify understanding
+3. **Request Code**: "Show me in JavaScript" for language-specific help
+4. **Ask for Visuals**: "How would this look visually?" for conceptual understanding
+
+What would you like to explore in detail?`,
+    
+    `## 🚀 Excellent Question!
+
+## Summary
+I'm here to help you master algorithms and data structures through systematic explanations and practical examples.
+
+## Learning Path Structure
+### 1. Concept Introduction
+- Clear definition and purpose
+- Real-world applications
+- When to use this approach
+
+### 2. How It Works
+- Step-by-step breakdown
+- Visual representation
+- Key insights and intuition
+
+### 3. Implementation
+- Code examples in popular languages
+- Explanation of key components
+- Common variations and optimizations
+
+### 4. Analysis
+- Time and space complexity
+- Best, average, and worst cases
+- Trade-offs and limitations
+
+### 5. Applications
+- Real-world use cases
+- Similar algorithms for comparison
+- When to choose this over alternatives
+
+## For Technical Questions
+### Algorithm Explanations
+Ask: "How does [algorithm] work?"
+Example: "How does Dijkstra's algorithm find the shortest path?"
+
+### Code Implementation
+Ask: "Show me how to implement [data structure/algorithm]"
+Example: "Show me how to implement a binary search tree in Java"
+
+### Complexity Analysis
+Ask: "What is the time complexity of [algorithm]?"
+Example: "What is the time complexity of quick sort in the worst case?"
+
+### Problem Solving
+Ask: "How would I solve [type of problem]?"
+Example: "How would I find the longest increasing subsequence?"
+
+## For Conceptual Questions
+### Comparisons
+Ask: "What's the difference between [X] and [Y]?"
+Example: "What's the difference between a stack and a queue?"
+
+### When to Use
+Ask: "When should I use [data structure/algorithm]?"
+Example: "When should I use a hash table instead of a binary search tree?"
+
+### Best Practices
+Ask: "What are the best practices for [topic]?"
+Example: "What are the best practices for implementing recursive algorithms?"
+
+## Interactive Learning Features
+### Visualizations
+- Step-by-step algorithm execution
 - Data structure operations
-- Complexity analysis
-- Problem-solving strategies
-- Code debugging
-- Interview preparation
+- Complexity comparisons
 
-**🎯 Example questions:**
-- "Explain how binary search works"
-- "When should I use a heap vs BST?"
-- "Compare merge sort and quick sort"
-- "Help me optimize this O(n²) solution"
+### Practice Problems
+- Guided coding challenges
+- Interview-style questions
+- Performance optimization tasks
 
-What would you like to learn about?`,
+### Code Examples
+- Multiple programming languages
+- Well-commented implementations
+- Common variations and optimizations
 
-    `🎯 **Great Topic!**
+## Current Platform Features
+- Algorithm visualizers for hands-on learning
+- Interactive coding environments
+- Progress tracking and learning paths
+- Community discussions and solutions
 
-I can provide detailed explanations! To give you the best answer:
-
-**📚 Choose what you need:**
-- **Concept Explanation**: How does it work?
-- **Implementation**: Show me the code
-- **Comparison**: vs other approaches
-- **Use Cases**: When to use it?
-- **Complexity**: Time and space analysis
-
-**🔧 Available Topics:**
-- Sorting (Quick, Merge, Heap, Bubble, etc.)
-- Searching (Binary, Linear, etc.)
-- Graphs (BFS, DFS, Dijkstra, A*)
-- Trees (BST, AVL, Heap, Trie)
-- Dynamic Programming
-- Data Structures (Stack, Queue, etc.)
-- Machine Learning basics
-
-**💡 Pro Tip:** Be specific! Instead of "tell me about sorting", try "explain why quick sort is O(n²) worst case"
-
-What specific aspect interests you?`,
-
-    `🚀 **Excellent Question!**
-
-**🎓 Let me guide your learning:**
-
-**For Concepts:**
-- Ask: "Explain [algorithm/concept]"
-- Example: "Explain breadth-first search"
-
-**For Comparisons:**
-- Ask: "Compare X vs Y"
-- Example: "Compare stack vs queue"
-
-**For Problems:**
-- Describe your scenario
-- Example: "Find duplicates in array efficiently"
-
-**For Code:**
-- Ask for implementation
-- Specify language preference
-
-**🔥 Popular Topics:**
-- Time complexity & Big O
-- Graph algorithms
-- Sorting techniques
-- Dynamic programming
-- Data structure selection
-
-**🎮 Interactive Learning:**
-- Use our visualizers
-- Try algorithm games
-- Take level assessments
-- Track code execution
-
-**💡 Current Page:** You're on the ${lowerMessage.includes('current') ? 'chat page' : 'platform'}. Click "Explain Current Page" for context-specific help!
-
-What would you like to explore?`,
+What specific aspect of algorithms or data structures would you like to explore?`
   ];
 
   const randomResponse = intelligentResponses[Math.floor(Math.random() * intelligentResponses.length)];

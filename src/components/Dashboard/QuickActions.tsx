@@ -3,7 +3,7 @@ import { Play, Code, Gamepad2, Brain } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
 export const QuickActions: React.FC = () => {
-  const { setCurrentView, setSelectedAlgorithm } = useStore();
+  const { setCurrentView } = useStore();
 
   const quickActions = [
     {

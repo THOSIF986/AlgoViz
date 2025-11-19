@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Filter, ChevronRight, Clock, Activity, ArrowLeft, Code2, TrendingUp, Network, GitBranch, Binary, Database, Cpu, FileCode } from 'lucide-react';
+import { Search, ChevronRight, Clock, Activity, ArrowLeft, Code2, TrendingUp, Network, GitBranch, Binary, Database, Cpu, FileCode } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { algorithms } from '../../data/algorithms';
+import { Algorithm } from '../../types';
 
 export const AlgorithmList: React.FC = () => {
   const { setSelectedAlgorithm, setCurrentView } = useStore();
@@ -73,7 +74,7 @@ export const AlgorithmList: React.FC = () => {
     return algorithms.filter(a => a.category === category).length;
   };
 
-  const handleSelectAlgorithm = (algo: any) => {
+  const handleSelectAlgorithm = (algo: Algorithm) => {
     setSelectedAlgorithm(algo);
     setCurrentView('visualizer');
   };

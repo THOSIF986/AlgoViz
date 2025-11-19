@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, CheckCircle, Play, Star, Award, Trophy, ClipboardCheck } from 'lucide-react';
+import { Lock, CheckCircle, Play, Award, Trophy, ClipboardCheck } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { Assessment } from './Assessment';
 
@@ -97,6 +97,12 @@ export const LearningJourney: React.FC = () => {
         description: 'Algorithm description',
         timeComplexity: 'O(n)',
         spaceComplexity: 'O(1)',
+        difficulty: 'Easy',
+        code: '',
+        pseudocode: [],
+        visualizationType: 'sorting',
+        defaultInput: '',
+        inputType: 'array',
         implemented: true,
       });
     }

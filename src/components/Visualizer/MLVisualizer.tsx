@@ -1,13 +1,18 @@
 import React from 'react';
 
 interface MLVisualizerProps {
-  data: any;
+  data?: {
+    points?: Array<{ x: number; y: number; cluster?: number }>;
+    centroids?: Array<{ x: number; y: number; cluster: number }>;
+    linePoints?: Array<{ x: number; y: number }>;
+    equation?: string;
+  };
 }
 
 export const MLVisualizer: React.FC<MLVisualizerProps> = ({ data }) => {
   if (!data) {
     // Default data for demonstration
-    const defaultPoints = Array.from({ length: 15 }, (_, i) => ({
+    const defaultPoints = Array.from({ length: 15 }, () => ({
       x: Math.random() * 400 + 50,
       y: Math.random() * 300 + 50,
       cluster: Math.floor(Math.random() * 3),
@@ -34,7 +39,7 @@ export const MLVisualizer: React.FC<MLVisualizerProps> = ({ data }) => {
     );
   }
 
-  if (data.points) {
+  if (data?.points) {
     // K-Means visualization
     const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
     
@@ -42,7 +47,7 @@ export const MLVisualizer: React.FC<MLVisualizerProps> = ({ data }) => {
       <div className="h-full flex items-center justify-center space-y-4">
         <svg width="600" height="400" className="border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900">
           {/* Data points */}
-          {data.points.map((point: any, index: number) => (
+          {data.points?.map((point, index) => (
             <circle
               key={`point-${index}`}
               cx={point.x * 5 + 50}
@@ -54,7 +59,7 @@ export const MLVisualizer: React.FC<MLVisualizerProps> = ({ data }) => {
           ))}
           
           {/* Centroids */}
-          {data.centroids && data.centroids.map((centroid: any, index: number) => (
+          {data.centroids?.map((centroid, index) => (
             <g key={`centroid-${index}`}>
               <circle
                 cx={centroid.x * 5 + 50}
@@ -82,13 +87,13 @@ export const MLVisualizer: React.FC<MLVisualizerProps> = ({ data }) => {
     );
   }
 
-  if (data.linePoints) {
+  if (data?.linePoints) {
     // Linear regression visualization
     return (
       <div className="h-full flex items-center justify-center">
         <svg width="600" height="400" className="border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900">
           {/* Data points */}
-          {data.points.map((point: any, index: number) => (
+          {data.points?.map((point, index) => (
             <circle
               key={index}
               cx={point.x * 5 + 50}
@@ -100,7 +105,7 @@ export const MLVisualizer: React.FC<MLVisualizerProps> = ({ data }) => {
           ))}
           
           {/* Regression line */}
-          {data.linePoints && (
+          {data.linePoints && data.linePoints.length >= 2 && (
             <line
               x1={data.linePoints[0].x * 5 + 50}
               y1={350 - data.linePoints[0].y * 3}

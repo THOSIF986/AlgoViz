@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Info, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
 
 interface DataStructure {
   id: string;
@@ -351,7 +351,7 @@ const DataStructureVisualization: React.FC<{ structure: DataStructure }> = ({ st
   };
 
   // Tree operations with traversal order support
-  const getInorderPosition = (elements: string[], newElement: string): number => {
+  const getInorderPosition = (elements: string[]): number => {
     // For BST-like insertion: find correct position based on value comparison
     if (elements.length === 0) return 0;
     // Simple implementation: insert in next available position
@@ -372,20 +372,19 @@ const DataStructureVisualization: React.FC<{ structure: DataStructure }> = ({ st
 
   const handleTreeInsert = () => {
     if (newElement && elements.length < 7) {
-      let position;
       let orderName = '';
       
       switch (traversalOrder) {
         case 'inorder':
-          position = getInorderPosition(elements, newElement);
+          getInorderPosition(elements);
           orderName = 'Inorder';
           break;
         case 'preorder':
-          position = getPreorderPosition(elements);
+          getPreorderPosition(elements);
           orderName = 'Preorder';
           break;
         case 'postorder':
-          position = getPostorderPosition(elements);
+          getPostorderPosition(elements);
           orderName = 'Postorder';
           break;
       }
@@ -453,7 +452,7 @@ const DataStructureVisualization: React.FC<{ structure: DataStructure }> = ({ st
       return;
     }
 
-    let traversalSequence: number[] = [];
+    const traversalSequence: number[] = [];
     
     // Generate traversal sequence based on selected order
     const inorderTraverse = (index: number) => {

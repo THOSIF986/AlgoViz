@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Trophy, Clock, Target, Brain, Award } from 'lucide-react';
+import { ArrowLeft, Clock, Target, Brain, Award } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface MLGameProps {

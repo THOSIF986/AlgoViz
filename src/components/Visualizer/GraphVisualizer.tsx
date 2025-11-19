@@ -1,7 +1,12 @@
 import React from 'react';
 
 interface GraphVisualizerProps {
-  data: any;
+  data: {
+    nodes: Array<{ id: number; x: number; y: number; visited?: boolean; distance?: number }>;
+    edges: Array<{ from: number; to: number; weight?: number }>;
+    queue?: number[];
+    stack?: number[];
+  };
   highlighted: number[];
   algorithm?: string;
   currentStep?: number;
@@ -39,7 +44,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
   const { nodes, edges, queue, stack } = data;
   
   // Get metaphor-based styling
-  const getNodeStyle = (node: any, isHighlighted: boolean) => {
+  const getNodeStyle = (node: { id: number; x: number; y: number; visited?: boolean; distance?: number }, isHighlighted: boolean) => {
     if (algorithm === 'bfs') {
       // Ripple effect metaphor
       if (isHighlighted) return { fill: '#3B82F6', stroke: '#1E40AF', strokeWidth: 4, r: 30 };
@@ -128,7 +133,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
           ))}
           
         {/* Edges */}
-        {edges.map((edge: any, index: number) => {
+        {edges.map((edge, index) => {
           const fromNode = nodes[edge.from];
           const toNode = nodes[edge.to];
           
@@ -189,7 +194,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
         })}
         
         {/* Nodes */}
-        {nodes.map((node: any) => {
+        {nodes.map((node) => {
           const isHighlighted = highlighted.includes(node.id);
           const nodeStyle = getNodeStyle(node, isHighlighted);
           
@@ -286,13 +291,13 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
             </span>
           </div>
           <div className="text-green-600 dark:text-green-400 font-mono text-sm bg-green-50 dark:bg-green-900/20 rounded px-3 py-2">
-            [{nodes.filter((n: any) => n.visited).map((n: any) => n.id).join(', ')}]
+            [{nodes.filter(n => n.visited).map(n => n.id).join(', ')}]
           </div>
         </div>
       </div>
       
       {/* Dijkstra Results - Shortest Path Distances */}
-      {algorithm === 'dijkstra' && nodes.some((n: any) => n.distance !== undefined && n.distance !== Infinity) && (
+      {algorithm === 'dijkstra' && nodes.some(n => n.distance !== undefined && n.distance !== Infinity) && (
         <div className="mt-4 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-lg p-5 border-2 border-cyan-300 dark:border-cyan-700">
           <div className="flex items-center space-x-2 mb-3">
             <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
@@ -305,9 +310,9 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {nodes
-              .filter((n: any) => n.distance !== undefined && n.distance !== Infinity)
-              .sort((a: any, b: any) => a.id - b.id)
-              .map((node: any) => (
+              .filter(n => n.distance !== undefined && n.distance !== Infinity)
+              .sort((a, b) => a.id - b.id)
+              .map((node) => (
                 <div 
                   key={node.id}
                   className="bg-white dark:bg-gray-800 rounded-lg p-3 border-2 border-cyan-200 dark:border-cyan-700 shadow-sm hover:shadow-md transition-shadow"

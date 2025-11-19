@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, Code as CodeIcon, Terminal, Activity } from 'lucide-react';
-import { useStore } from '../../store/useStore';
-import { algorithms, Algorithm } from '../../data/algorithms';
-import { generateVisualizationSteps, VisualizationStep } from '../../utils/algorithmEngine';
+import { Play, RotateCcw, Code as CodeIcon, Terminal, Activity } from 'lucide-react';
+import { algorithms } from '../../data/algorithms';
+import { generateVisualizationSteps } from '../../utils/algorithmEngine';
 import toast from 'react-hot-toast';
-
-const languageTemplates = {
-  python: (algorithmCode: string) => algorithmCode,
-  javascript: (algorithmCode: string) => algorithmCode.replace('def ', 'function ').replace(':', ' {').replace(/\n    /g, '\n  ') + '\n}',
-  java: (algorithmCode: string) => `public class Solution {\n  ${algorithmCode.replace(/def /g, 'public static ')}\n}`,
-  c: (algorithmCode: string) => `#include <stdio.h>\n\n${algorithmCode}`,
-  cpp: (algorithmCode: string) => `#include <iostream>\nusing namespace std;\n\n${algorithmCode}`,
-};
 
 export const CodeVisualizer: React.FC = () => {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('bubble-sort');
@@ -19,10 +10,10 @@ export const CodeVisualizer: React.FC = () => {
   const [code, setCode] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const [currentLine, setCurrentLine] = useState(-1);
-  const [variables, setVariables] = useState<{ [key: string]: any }>({});
+  const [variables, setVariables] = useState<{ [key: string]: string | number | boolean | Array<string | number> }>({});
   const [output, setOutput] = useState<string[]>([]);
   const [executionSpeed, setExecutionSpeed] = useState(1);
-  const [visualData, setVisualData] = useState<any>(null);
+  // const [visualData, setVisualData] = useState<any>(null); // Currently unused
 
   useEffect(() => {
     const algo = algorithms.find(a => a.id === selectedAlgorithm);
@@ -41,14 +32,17 @@ export const CodeVisualizer: React.FC = () => {
           .replace(/let\s+(\w+)\s*=/g, '$1 =')
           .replace(/\{/g, ':')
           .replace(/\}/g, '')
-          .replace(/;$/gm, '')
+          .replace(/;\s*$/gm, '')
           .replace(/\/\//g, '#');
       case 'java':
         return `public class Solution {
 ${code.replace(/function\s+(\w+)/g, '  public static void $1')}
 }`;
       case 'c':
-        return `#include <stdio.h>\n#include <stdlib.h>\n\n${code.replace(/function\s+(\w+)/g, 'void $1').replace(/const|let/g, 'int')}`;
+        return `#include <stdio.h>
+#include <stdlib.h>
+
+${code.replace(/function\s+(\w+)/g, 'void $1').replace(/const|let/g, 'int')}`;
       case 'cpp':
         return `#include <iostream>
 #include <vector>
@@ -73,7 +67,7 @@ ${code.replace(/function\s+(\w+)/g, 'void $1').replace(/const|let/g, 'int')}`;
 
     // Generate default input based on algorithm type
     let inputData = '64,34,25,12,22,11,90';
-    let targetData = '22';
+    const targetData = '22';
 
     if (selectedAlgorithm.includes('graph') || selectedAlgorithm === 'bfs' || selectedAlgorithm === 'dfs') {
       inputData = '0-1,0-2,1-3,1-4,2-5';
@@ -88,13 +82,13 @@ ${code.replace(/function\s+(\w+)/g, 'void $1').replace(/const|let/g, 'int')}`;
     }
 
     try {
-      const steps = generateVisualizationSteps(algo as any, inputData, targetData);
+      const steps = generateVisualizationSteps(algo, inputData, targetData);
 
       // Execute each step with delay
       for (const step of steps) {
         setCurrentLine(step.codeLine ?? -1);
         setVariables(step.variables);
-        setVisualData(step.data);
+        // setVisualData(step.data); // Currently unused
         setOutput(prev => [...prev, step.description]);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
@@ -114,7 +108,7 @@ ${code.replace(/function\s+(\w+)/g, 'void $1').replace(/const|let/g, 'int')}`;
     setCurrentLine(-1);
     setVariables({});
     setOutput([]);
-    setVisualData(null);
+    // setVisualData(null); // Currently unused
   };
 
   return (

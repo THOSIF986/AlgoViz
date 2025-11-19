@@ -5,7 +5,13 @@ export interface Algorithm {
   description: string;
   timeComplexity: string;
   spaceComplexity: string;
-  implemented: boolean;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  code: string;
+  pseudocode: string[];
+  visualizationType: 'sorting' | 'searching' | 'graph' | 'tree' | 'recursion' | 'dp' | 'bit' | 'memory';
+  defaultInput: string;
+  inputType: 'array' | 'graph' | 'string' | 'number' | 'matrix';
+  implemented?: boolean;
   metaphor?: string;
   steps?: string[];
 }
@@ -13,10 +19,10 @@ export interface Algorithm {
 export interface VisualizationStep {
   step: number;
   description: string;
-  data: any[];
+  data: unknown;
   highlighted: number[];
-  code: string;
-  variables: { [key: string]: any };
+  variables: Record<string, unknown>;
+  codeLine?: number;
 }
 
 export interface User {
@@ -92,7 +98,7 @@ export interface CodeExecution {
 
 export interface ExecutionStep {
   line: number;
-  variables: { [key: string]: any };
+  variables: Record<string, unknown>;
   output: string;
   description: string;
 }

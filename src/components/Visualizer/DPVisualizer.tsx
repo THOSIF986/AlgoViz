@@ -1,25 +1,36 @@
 import React from 'react';
 
 interface DPVisualizerProps {
-  data: any;
-  highlighted: number[];
   algorithm?: string;
   currentStep?: number;
-  variables?: any;
+  variables?: {
+    dp?: number[][];
+    weights?: number[];
+    values?: number[];
+    capacity?: number;
+    currentI?: number;
+    currentW?: number;
+    reusedCells?: { i: number; j: number }[];
+    memo?: Record<number, number>;
+    currentN?: number;
+    decision?: string;
+    computations?: number;
+    memoHits?: number;
+    currentValue?: number;
+    optimalValue?: number;
+  };
 }
 
 export const DPVisualizer: React.FC<DPVisualizerProps> = ({ 
-  data, 
-  highlighted, 
   algorithm = 'knapsack',
   currentStep = 0,
   variables = {}
 }) => {
   const renderKnapsackTable = () => {
-    const dp = variables.dp || [];
-    const weights = variables.weights || [];
-    const values = variables.values || [];
-    const capacity = variables.capacity || 0;
+    const dp = variables?.dp || [];
+    const weights = variables?.weights || [];
+    const values = variables?.values || [];
+    const capacity = variables?.capacity || 0;
     
     if (!dp.length) return null;
     
@@ -39,14 +50,14 @@ export const DPVisualizer: React.FC<DPVisualizerProps> = ({
             </tr>
           </thead>
           <tbody>
-            {dp.map((row: number[], i: number) => (
+            {dp.map((row, i) => (
               <tr key={i}>
                 <td className="border border-gray-300 dark:border-gray-600 p-2 bg-gray-50 dark:bg-gray-900 font-medium">
                   {i === 0 ? '∅' : `${i} (w:${weights[i-1]}, v:${values[i-1]})`}
                 </td>
-                {row.map((cell: number, j: number) => {
-                  const isHighlighted = variables.currentI === i && variables.currentW === j;
-                  const isReused = variables.reusedCells && variables.reusedCells.some((c: any) => c.i === i && c.j === j);
+                {row.map((cell, j) => {
+                  const isHighlighted = variables?.currentI === i && variables?.currentW === j;
+                  const isReused = variables?.reusedCells && variables.reusedCells.some(c => c.i === i && c.j === j);
                   
                   return (
                     <td
@@ -71,8 +82,8 @@ export const DPVisualizer: React.FC<DPVisualizerProps> = ({
   };
 
   const renderFibonacciVisualization = () => {
-    const memo = variables.memo || {};
-    const currentN = variables.currentN || 0;
+    const memo = variables?.memo || {};
+    const currentN = variables?.currentN || 0;
     
     return (
       <div className="space-y-4">
@@ -129,7 +140,7 @@ export const DPVisualizer: React.FC<DPVisualizerProps> = ({
       </div>
 
       {/* Current Decision */}
-      {variables.decision && (
+      {variables?.decision && (
         <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
           <p className="text-blue-800 dark:text-blue-300 font-medium">
             {variables.decision}

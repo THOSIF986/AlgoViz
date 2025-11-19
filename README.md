@@ -22,6 +22,7 @@ An interactive educational platform for learning computer science algorithms and
 - **Charts**: Recharts
 - **Animations**: Framer Motion
 - **Icons**: Lucide React, Heroicons
+- **AI**: DeepSeek API for enhanced question answering
 
 ## 📦 Installation
 
@@ -42,6 +43,20 @@ npm run dev
 ```
 
 4. Open your browser and navigate to `http://localhost:5173`
+
+### DeepSeek API Configuration (Optional)
+
+To enable enhanced AI capabilities for answering questions outside the predefined algorithm knowledge:
+
+1. Sign up for a DeepSeek API key at [DeepSeek](https://www.deepseek.com/)
+2. Create a `.env` file in the project root
+3. Add your API key:
+   ```
+   VITE_DEEPSEEK_API_KEY=your_actual_api_key_here
+   ```
+4. Restart the development server
+
+With this configuration, the AI assistant will use DeepSeek's powerful models for general questions while still using the fast, built-in responses for algorithm and data structure questions.
 
 ## 🏗️ Build for Production
 

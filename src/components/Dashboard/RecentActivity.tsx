@@ -1,9 +1,7 @@
 import React from 'react';
 import { Clock, CheckCircle, Star } from 'lucide-react';
-import { useStore } from '../../store/useStore';
 
 export const RecentActivity: React.FC = () => {
-  const { user } = useStore();
 
   const recentActivities = [
     {
@@ -74,10 +72,6 @@ export const RecentActivity: React.FC = () => {
           );
         })}
       </div>
-      
-      <button className="w-full mt-4 py-2 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm font-medium">
-        View All Activity
-      </button>
     </div>
   );
 };

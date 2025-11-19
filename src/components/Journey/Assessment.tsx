@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft, CheckCircle, XCircle, Trophy, Code, BookOpen, Play } from 'lucide-react';
-import { level1MCQs, level2CodingQuestions, MCQQuestion, CodingQuestion } from '../../data/assessmentQuestions';
+import { ArrowLeft, CheckCircle, Trophy, Code, BookOpen, Play } from 'lucide-react';
+import { level1MCQs, level2CodingQuestions } from '../../data/assessmentQuestions';
 import toast from 'react-hot-toast';
 
 interface AssessmentProps {
@@ -76,7 +76,7 @@ export const Assessment: React.FC<AssessmentProps> = ({ level, onBack, onComplet
     const codeLength = code.trim().length;
     const hasLogic = code.includes('if') || code.includes('for') || code.includes('while') || code.includes('return');
     
-    currentCoding.testCases.forEach((testCase, index) => {
+    currentCoding.testCases.forEach((testCase) => {
       // Simple heuristic - in production, you'd use a code execution engine
       const passed = codeLength > 50 && hasLogic && Math.random() > 0.3; // Simulated
       results.push({
@@ -326,7 +326,10 @@ export const Assessment: React.FC<AssessmentProps> = ({ level, onBack, onComplet
               <div className="bg-gray-900 border-b border-gray-700 p-4 flex items-center justify-between">
                 <select
                   value={selectedLanguage}
-                  onChange={(e) => setSelectedLanguage(e.target.value as any)}
+                  onChange={(e) => {
+                    const value = e.target.value as 'python' | 'javascript' | 'java' | 'c' | 'cpp';
+                    setSelectedLanguage(value);
+                  }}
                   className="bg-gray-700 text-white px-4 py-2 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="python">Python</option>
