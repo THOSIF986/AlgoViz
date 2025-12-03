@@ -28,9 +28,11 @@ export const generateVisualizationSteps = (
     case 'heap-sort':
       return generateHeapSortSteps(parseArrayInput(input));
     case 'linear-search':
-      return generateLinearSearchSteps(parseArrayInput(input), target ? parseInt(target) : parseArrayInput(input)[0]);
+      const linearTarget = target && target.trim() !== '' ? parseInt(target.trim()) : 0;
+      return generateLinearSearchSteps(parseArrayInput(input), isNaN(linearTarget) ? 0 : linearTarget);
     case 'binary-search':
-      return generateBinarySearchSteps(parseArrayInput(input), target ? parseInt(target) : parseArrayInput(input)[0]);
+      const binaryTarget = target && target.trim() !== '' ? parseInt(target.trim()) : 0;
+      return generateBinarySearchSteps(parseArrayInput(input), isNaN(binaryTarget) ? 0 : binaryTarget);
     case 'bfs':
       return generateBFSSteps(parseGraphInput(input));
     case 'dfs':
@@ -44,7 +46,8 @@ export const generateVisualizationSteps = (
     case 'binary-tree-traversal':
       return generateTreeTraversalSteps(parseTreeInput(input));
     case 'bst-search':
-      return generateBSTSearchSteps(parseTreeInput(input), target ? parseInt(target) : 6);
+      const bstTarget = target && target.trim() !== '' ? parseInt(target.trim()) : 0;
+      return generateBSTSearchSteps(parseTreeInput(input), isNaN(bstTarget) ? 0 : bstTarget);
     default:
       return generateBubbleSortSteps(parseArrayInput(input));
   }

@@ -49,9 +49,10 @@ export default function AlgorithmVisualizer() {
       setCustomInput(algorithm.defaultInput);
       setTarget('');
       setHasCompletedOnce(false);
-      initializeAlgorithm();
+      setIsInitialized(false);
+      setSteps([]);
     }
-  }, [algorithm, initializeAlgorithm]);
+  }, [algorithm]);
 
   // Auto-play functionality
   useEffect(() => {
@@ -159,29 +160,96 @@ export default function AlgorithmVisualizer() {
     }
 
     const currentStepData = steps[currentStep];
-    const commonProps = {
-      data: currentStepData?.data || [],
-      highlighted: currentStepData?.highlighted || [],
-      algorithm: algorithm.id,
-      currentStep,
-      variables: currentStepData?.variables || {},
-    };
-
+    
+    // Handle case when there's no step data yet
+    if (!currentStepData) {
+      const emptyProps = {
+        data: [],
+        highlighted: [],
+        algorithm: algorithm.id,
+        currentStep,
+        variables: {},
+      };
+      
+      switch (algorithm.visualizationType) {
+        case 'sorting':
+          return <SortingVisualizer {...emptyProps} />;
+        case 'searching':
+          return <SearchingVisualizer {...emptyProps} target={target} />;
+        case 'graph':
+          return <GraphVisualizer {...emptyProps} data={{ nodes: [], edges: [] }} />;
+        case 'tree':
+          return <TreeVisualizer {...emptyProps} data={[]} />;
+        case 'recursion':
+          return <RecursionVisualizer {...emptyProps} data="" />;
+        case 'dp':
+          return <DPVisualizer {...emptyProps} />;
+        default:
+          return <SortingVisualizer {...emptyProps} />;
+      }
+    }
+    
+    // Handle case when there is step data - create specific props for each visualizer type
     switch (algorithm.visualizationType) {
       case 'sorting':
-        return <SortingVisualizer {...commonProps} />;
+        return <SortingVisualizer 
+          data={Array.isArray(currentStepData.data) ? currentStepData.data : []}
+          highlighted={currentStepData.highlighted || []}
+          algorithm={algorithm.id}
+          currentStep={currentStep}
+          variables={currentStepData.variables || {}}
+        />;
       case 'searching':
-        return <SearchingVisualizer {...commonProps} target={target} />;
+        return <SearchingVisualizer 
+          data={Array.isArray(currentStepData.data) ? currentStepData.data : []}
+          highlighted={currentStepData.highlighted || []}
+          algorithm={algorithm.id}
+          currentStep={currentStep}
+          variables={currentStepData.variables || {}}
+          target={target}
+        />;
       case 'graph':
-        return <GraphVisualizer {...commonProps} />;
+        // Type guard for graph data
+        const graphData = currentStepData.data && 
+          typeof currentStepData.data === 'object' && 
+          'nodes' in currentStepData.data && 
+          'edges' in currentStepData.data ? 
+          currentStepData.data : 
+          { nodes: [], edges: [] };
+        return <GraphVisualizer 
+          data={graphData as { nodes: Array<{ id: number; x: number; y: number; visited?: boolean; distance?: number }>; edges: Array<{ from: number; to: number; weight?: number }>; queue?: number[]; stack?: number[] }}
+          highlighted={currentStepData.highlighted || []}
+          algorithm={algorithm.id}
+          currentStep={currentStep}
+        />;
       case 'tree':
-        return <TreeVisualizer {...commonProps} />;
+        return <TreeVisualizer 
+          data={Array.isArray(currentStepData.data) ? currentStepData.data : []}
+          highlighted={currentStepData.highlighted || []}
+          algorithm={algorithm.id}
+          currentStep={currentStep}
+          variables={currentStepData.variables || {}}
+        />;
       case 'recursion':
-        return <RecursionVisualizer {...commonProps} />;
+        return <RecursionVisualizer 
+          data={typeof currentStepData.data === 'string' ? currentStepData.data : ''}
+          currentStep={currentStep}
+          variables={currentStepData.variables || {}}
+        />;
       case 'dp':
-        return <DPVisualizer {...commonProps} />;
+        return <DPVisualizer 
+          algorithm={algorithm.id}
+          currentStep={currentStep}
+          variables={currentStepData.variables || {}}
+        />;
       default:
-        return <SortingVisualizer {...commonProps} />;
+        return <SortingVisualizer 
+          data={Array.isArray(currentStepData.data) ? currentStepData.data : []}
+          highlighted={currentStepData.highlighted || []}
+          algorithm={algorithm.id}
+          currentStep={currentStep}
+          variables={currentStepData.variables || {}}
+        />;
     }
   };
 
